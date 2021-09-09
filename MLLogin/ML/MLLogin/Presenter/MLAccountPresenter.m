@@ -63,11 +63,19 @@
         // 你可以直接在这里使用 self
         [MLProgressHUD hide];
         /// 登陆注册完保存账户数据
+        if (parameter && [parameter[@"platform"] isEqualToString:@"Facebook"]) {
+            [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
+        } else {
+            [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
+        }
         [self saveAccuunt:account password:password responseResullt:request.responseJSONObject];
-        [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
     } failure:^(MLBaseRequest *request) {
         [MLProgressHUD hide];
-        [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject error:request.error];
+        if (parameter && [parameter[@"platform"] isEqualToString:@"Facebook"]) {
+            [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
+        } else {
+            [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
+        }
     }];
 }
 
@@ -138,7 +146,7 @@
     /// 处理请求结果
     [self handleRequestResullt: result apiUrl:apiUrlType];
     if ([self.delegate respondsToSelector:@selector(callBackApiUrl:status:result:error:)]) {
-        [self.delegate callBackApiUrl:apiUrlType status:result[@"status"] result:result error:error];
+        [self.delegate callBackApiUrl:apiUrlType status:result[key] result:result error:error];
     }
 }
 
@@ -152,7 +160,7 @@
         case MLGuestLogin: {
             if ([resullt isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = (NSDictionary *)resullt;
-                if ([result[@"status"] isEqualToString:@"success"]) {
+                if ([result[key] isEqualToString:value]) {
                     [MLUserManger share].gusetGameId = result[@"game_id"] ?:@"";
                 }
             }
@@ -173,7 +181,7 @@
      responseResullt:(id)responseResullt {
     if ([responseResullt isKindOfClass:[NSDictionary class]]) {
         NSDictionary *result = (NSDictionary *)responseResullt;
-        if ([result[@"status"] isEqualToString:@"success"]) {
+        if ([result[key] isEqualToString:value]) {
             [MLUserManger share].account = account;
             [MLUserManger share].password = password;
             [MLUserManger share].gameId = result[@"game_id"] ?:@"";

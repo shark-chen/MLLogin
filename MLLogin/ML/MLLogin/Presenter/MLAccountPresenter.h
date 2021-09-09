@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *key = @"status";
+static NSString *value = @"success";
+
 @interface MLAccountPresenter : NSObject
 
 /// dalagate get call back data

@@ -298,14 +298,14 @@
         [self.delegate callBackApiUrl:apiUrlType status:status result:result error:error];
     }
     switch (apiUrlType) {
-        case MLLogin: case MLGuestLogin: case MLRegister: {
-            if ([status isEqualToString:@"success"]) {
+        case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: {
+            if ([status isEqualToString:value]) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         }
             break;
         case MLAutoLogin: {
-            if ([status isEqualToString:@"success"]) {
+            if ([status isEqualToString:value]) {
 //                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
 //                _loginView.hidden = NO;

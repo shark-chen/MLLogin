@@ -18,7 +18,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    UILabel *lb = [[UILabel alloc] init];
+    lb.text = @"点击屏幕启动登陆SDK";
+    lb.frame = CGRectMake(0, 350, [UIScreen mainScreen].bounds.size.width, 60);
+    lb.textAlignment = NSTextAlignmentCenter;
+    lb.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:lb];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -36,15 +41,9 @@
     vc.loginConfig = a;
 //    [vc clearAccout];
     [vc show: self];
-
-    [MLoginSDK dissmiss:self];
-    
     
     NSLog(@" - %@ -%@ -  %@ - %@", [MLLoginSDKInfo share].account, [MLLoginSDKInfo share].password, [MLLoginSDKInfo share].gameId, [MLLoginSDKInfo share].gusetGameId);
-//    self.navigationController.delegate = self;
-//    [self presentViewController:vc animated:YES completion:nil];
-//    [self presentViewController:vc1 animated:YES completion:nil];
-//    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 - (void)callBackApiUrl:(MLApiUrlType)apiUrlType status:(NSString *)status result:(id)result error:(NSError *)error {
