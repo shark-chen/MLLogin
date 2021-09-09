@@ -23,11 +23,10 @@ PODS:
     - FBSDKLoginKit
 
 DEPENDENCIES:
-  - FBSDKLoginKit
   - MLLogin (from `../`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
@@ -44,6 +43,6 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: d65eb587a9eaa89295338fb0bb3b358bde0b7ae4
   MLLogin: c0a001b9b9d250c022e6f8ed9816bfe3160f45a6
 
-PODFILE CHECKSUM: 92ad7d304a688e8bbc1953b84c157107fbf1147f
+PODFILE CHECKSUM: a803e35436fdc7b86a1eb6783887be03d4b3723f
 
 COCOAPODS: 1.10.0

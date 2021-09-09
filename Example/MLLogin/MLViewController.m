@@ -18,6 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -36,6 +37,8 @@
 //    [vc clearAccout];
     [vc show: self];
 
+    [MLoginSDK dissmiss:self];
+    
     
     NSLog(@" - %@ -%@ -  %@ - %@", [MLLoginSDKInfo share].account, [MLLoginSDKInfo share].password, [MLLoginSDKInfo share].gameId, [MLLoginSDKInfo share].gusetGameId);
 //    self.navigationController.delegate = self;

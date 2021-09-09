@@ -29,8 +29,6 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'
-
-#  s.source_files = 'MLLogin/Classes/**/*'
   
   s.subspec 'ML' do |s|
     s.source_files = 'MLLogin/ML/**/*.{h,m,xib}'
@@ -43,5 +41,6 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
    s.dependency 'FBSDKLoginKit'
+#   s.dependency 'GoogleSignIn'
   # s.dependency 'AFNetworking', '~> 2.3'
 end

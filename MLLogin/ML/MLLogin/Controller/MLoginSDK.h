@@ -54,7 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)show:(UIViewController *)vc;
 
 /// 隐藏销毁
-- (void)dissmiss:(UIViewController *)vc;;
+/// @param vc 父控制器
++ (void)dissmiss:(UIViewController *)vc;
 
 /// 清楚本地存储的账号数据
 - (void)clearAccout;

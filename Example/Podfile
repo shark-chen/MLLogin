@@ -10,7 +10,5 @@ target 'MLLogin_Example' do
   target 'MLLogin_Tests' do
     inherit! :search_paths
 
-    pod 'FBSDKLoginKit'
-
   end
 end

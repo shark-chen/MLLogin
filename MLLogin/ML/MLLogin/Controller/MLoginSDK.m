@@ -262,8 +262,10 @@
 }
 
 /// 隐藏销毁
-- (void)dissmiss:(UIViewController *)vc {
-    [vc dismissViewControllerAnimated:YES completion:nil];
++ (void)dissmiss:(UIViewController *)vc {
+    if(vc.presentedViewController && [vc.presentedViewController isKindOfClass:[MLoginSDK class]]) {
+        [vc.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - dalegate
