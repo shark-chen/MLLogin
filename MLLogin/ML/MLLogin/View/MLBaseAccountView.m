@@ -22,6 +22,8 @@
         bg.frame = self.bounds;
         [self addSubview:bg];
         self.backgroundColor = [UIColor whiteColor];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(endEdit)];
+        [self addGestureRecognizer:tap];
     }
     return self;
 }
@@ -36,6 +38,10 @@
     leftView.width = 10;
     TF.leftViewMode = UITextFieldViewModeAlways;
     TF.leftView = leftView;
+}
+
+- (void)endEdit {
+    [self endEditing:YES];
 }
 
 #pragma mark - lazyUI
