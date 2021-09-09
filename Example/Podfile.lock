@@ -1,0 +1,49 @@
+PODS:
+  - FBAEMKit (11.1.0):
+    - FBAEMKit/AEM (= 11.1.0)
+  - FBAEMKit/AEM (11.1.0):
+    - FBSDKCoreKit_Basics (~> 11.1.0)
+  - FBSDKCoreKit (11.1.0):
+    - FBSDKCoreKit/Core (= 11.1.0)
+  - FBSDKCoreKit/Core (11.1.0):
+    - FBAEMKit (~> 11.1.0)
+    - FBSDKCoreKit_Basics (~> 11.1.0)
+  - FBSDKCoreKit_Basics (11.1.0):
+    - FBSDKCoreKit_Basics/Basics (= 11.1.0)
+  - FBSDKCoreKit_Basics/Basics (11.1.0)
+  - FBSDKLoginKit (11.1.0):
+    - FBSDKLoginKit/Login (= 11.1.0)
+  - FBSDKLoginKit/Login (11.1.0):
+    - FBSDKCoreKit (~> 11.1.0)
+    - FBSDKCoreKit_Basics (~> 11.1.0)
+  - MLLogin (0.1.0):
+    - FBSDKLoginKit
+    - MLLogin/ML (= 0.1.0)
+  - MLLogin/ML (0.1.0):
+    - FBSDKLoginKit
+
+DEPENDENCIES:
+  - FBSDKLoginKit
+  - MLLogin (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - FBAEMKit
+    - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
+    - FBSDKLoginKit
+
+EXTERNAL SOURCES:
+  MLLogin:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
+  FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
+  FBSDKCoreKit_Basics: 8f978bce195845f609b0ec6b425949d0d24f525b
+  FBSDKLoginKit: d65eb587a9eaa89295338fb0bb3b358bde0b7ae4
+  MLLogin: 423e6a46e5ba439dae27c84bfca326f29433ddf5
+
+PODFILE CHECKSUM: 92ad7d304a688e8bbc1953b84c157107fbf1147f
+
+COCOAPODS: 1.10.0

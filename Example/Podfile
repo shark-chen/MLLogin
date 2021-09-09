@@ -1,0 +1,16 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+install! 'cocoapods', :disable_input_output_paths => true
+
+platform :ios, '9.0'
+
+target 'MLLogin_Example' do
+  pod 'MLLogin', :path => '../'
+
+  target 'MLLogin_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSDKLoginKit'
+
+  end
+end

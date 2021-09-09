@@ -1,0 +1,34 @@
+{
+  "name": "MLLogin",
+  "version": "0.1.0",
+  "summary": "A short description of MLLogin.",
+  "static_framework": true,
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/git/MLLogin",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "git": "1533503916@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/git/MLLogin.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "dependencies": {
+    "FBSDKLoginKit": [
+
+    ]
+  },
+  "subspecs": [
+    {
+      "name": "ML",
+      "source_files": "MLLogin/ML/**/*.{h,m,xib}",
+      "resources": "MLLogin/ML/**/*.{bundle}"
+    }
+  ]
+}
