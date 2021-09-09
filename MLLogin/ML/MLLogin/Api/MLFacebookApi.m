@@ -14,6 +14,11 @@
 - (void)facebookLogin:(UIViewController * __nullable)fromVC
              complete:(void(^)(NSDictionary *result, NSError * _Nullable error))complete {
     
+    if ([FBSDKAccessToken currentAccessToken] != nil) {
+        !complete?:complete(@{@"userID": [FBSDKAccessToken currentAccessToken].userID?:@"", @"token": [FBSDKAccessToken currentAccessToken].tokenString?:@""}, nil);
+        return;
+    }
+    
     // 打开 FBSDKProfile 自动追踪 FBSDKAccessToken
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
     // 清空FBSDKAccessToken
