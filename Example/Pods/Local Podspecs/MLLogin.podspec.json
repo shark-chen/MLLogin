@@ -4,7 +4,7 @@
   "summary": "A short description of MLLogin.",
   "static_framework": true,
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/git/MLLogin",
+  "homepage": "https://github.com/shark-chen/MLLogin",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -13,7 +13,7 @@
     "git": "1533503916@qq.com"
   },
   "source": {
-    "git": "https://github.com/git/MLLogin.git",
+    "git": "https://github.com/shark-chen/MLLogin.git",
     "tag": "0.1.0"
   },
   "platforms": {
