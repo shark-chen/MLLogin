@@ -13,7 +13,6 @@
 		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* MLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* MLAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* MLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* MLViewController.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -23,6 +22,7 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9C228B3D9E24CF3C816371E4 /* Pods_MLLogin_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8AA0688E1E2C1A6E64FE83 /* Pods_MLLogin_Example.framework */; };
+		DA430FC726F074CA002E0403 /* MLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA430FC526F074C9002E0403 /* MLViewController.m */; };
 		EE1C369F01F26B2294F19133 /* Pods_MLLogin_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4541008C10B9359E0AB8AACA /* Pods_MLLogin_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,8 +50,6 @@
 		6003F59B195388D20070C39A /* MLLogin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MLLogin-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* MLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLAppDelegate.h; sourceTree = "<group>"; };
 		6003F59D195388D20070C39A /* MLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* MLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* MLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* MLLogin_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLLogin_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -66,6 +64,8 @@
 		9DCA74E90850B369F9853B70 /* Pods-MLLogin_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLLogin_Tests.debug.xcconfig"; path = "Target Support Files/Pods-MLLogin_Tests/Pods-MLLogin_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF36C4B653B2893D7A73A059 /* Pods-MLLogin_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLLogin_Tests.release.xcconfig"; path = "Target Support Files/Pods-MLLogin_Tests/Pods-MLLogin_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		DA430F0B26F04058002E0403 /* MLLogin_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MLLogin_Example.entitlements; sourceTree = "<group>"; };
+		DA430FC526F074C9002E0403 /* MLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLViewController.m; sourceTree = "<group>"; };
+		DA430FC626F074CA002E0403 /* MLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLViewController.h; sourceTree = "<group>"; };
 		E3FD9DF1C500937543AF5DD4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FD8AA0688E1E2C1A6E64FE83 /* Pods_MLLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -137,8 +137,8 @@
 				6003F59C195388D20070C39A /* MLAppDelegate.h */,
 				6003F59D195388D20070C39A /* MLAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				6003F5A5195388D20070C39A /* MLViewController.h */,
-				6003F5A6195388D20070C39A /* MLViewController.m */,
+				DA430FC626F074CA002E0403 /* MLViewController.h */,
+				DA430FC526F074C9002E0403 /* MLViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -210,6 +210,7 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				DFC47CB2A7B2D109E83CDC3D /* [CP] Embed Pods Frameworks */,
+				96FBB73D2420CEA7EB8D1A11 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -301,6 +302,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		96FBB73D2420CEA7EB8D1A11 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MLLogin_Example/Pods-MLLogin_Example-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B53278D37AB686A4B72F81DD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -368,7 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* MLAppDelegate.m in Sources */,
-				6003F5A7195388D20070C39A /* MLViewController.m in Sources */,
+				DA430FC726F074CA002E0403 /* MLViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

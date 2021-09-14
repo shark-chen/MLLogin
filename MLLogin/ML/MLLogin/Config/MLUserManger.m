@@ -29,6 +29,7 @@ static NSString *MLPasswordKey = @"ML_GAME_PASSWORD";
 static NSString *MLIsRemember = @"ML_GAME_ISREMEMBER";
 static NSString *MLGameId = @"ML_GAME_GAMEID";
 static NSString *MLGusetGameId = @"ML_GAME_GUEST_GAMEID";
+static NSString *MLAppleUserID = @"ML_GAME_APPLE_USERID";
 
 + (instancetype)share {
     static MLUserManger *instance = nil;
@@ -39,6 +40,7 @@ static NSString *MLGusetGameId = @"ML_GAME_GUEST_GAMEID";
         instance.password = [MLKeychain load: MLPasswordKey];
         instance.gameId = [MLKeychain load: MLGameId];
         instance.gusetGameId = [MLKeychain load: MLGusetGameId];
+        instance.appleUserId = [MLKeychain load: MLAppleUserID];
         instance.isRemember = [[NSUserDefaults standardUserDefaults] boolForKey:MLIsRemember];
     });
     return instance;
@@ -65,6 +67,11 @@ static NSString *MLGusetGameId = @"ML_GAME_GUEST_GAMEID";
 - (void)setGusetGameId:(NSString *)gusetGameId {
     _gusetGameId = gusetGameId;
     [MLKeychain save:MLGusetGameId data:gusetGameId];
+}
+
+- (void)setAppleUserId:(NSString *)appleUserId {
+    _appleUserId = appleUserId;
+    [MLKeychain save:MLAppleUserID data:appleUserId];
 }
 
 - (void)setIsRemember:(BOOL)isRemember {

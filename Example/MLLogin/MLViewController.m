@@ -8,8 +8,11 @@
 
 #import "MLViewController.h"
 #import "MLoginSDK.h"
+#import "MLAppleLoginView.h"
+
 
 @interface MLViewController ()<MLLoginDalegate>
+
 
 @end
 
@@ -24,7 +27,6 @@
     lb.textAlignment = NSTextAlignmentCenter;
     lb.backgroundColor = [UIColor yellowColor];
     [self.view addSubview:lb];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,7 +45,6 @@
     [vc show: self];
     
     NSLog(@" - %@ -%@ -  %@ - %@", [MLLoginSDKInfo share].account, [MLLoginSDKInfo share].password, [MLLoginSDKInfo share].gameId, [MLLoginSDKInfo share].gusetGameId);
-
 }
 
 - (void)callBackApiUrl:(MLApiUrlType)apiUrlType status:(NSString *)status result:(id)result error:(NSError *)error {

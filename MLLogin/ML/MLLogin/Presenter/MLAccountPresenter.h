@@ -11,8 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *key = @"status";
-static NSString *value = @"success";
+static NSString *MLStatusKey = @"status";
+static NSString *MLSuccessValue = @"success";
+static NSString *MLErrorValue = @"error";
 
 @interface MLAccountPresenter : NSObject
 
@@ -63,6 +64,11 @@ static NSString *value = @"success";
 /// facebook 三方登陆
 /// @param fromVc 控制器
 - (void)facebookLogin:(UIViewController * __nullable)fromVc;
+
+
+/// 苹果 三方登陆
+/// @param account 苹果userid
+- (void)appleLoginWithAccount:(NSString *)account;
 
 @end
 

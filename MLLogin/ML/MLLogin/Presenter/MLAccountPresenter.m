@@ -63,17 +63,21 @@
         // 你可以直接在这里使用 self
         [MLProgressHUD hide];
         /// 登陆注册完保存账户数据
-        if (parameter && [parameter[@"platform"] isEqualToString:@"Facebook"]) {
+        if (parameter && [parameter[@"platform"] isEqualToString:@"facebook"]) {
             [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
+        } else if (parameter && [parameter[@"platform"] isEqualToString:@"apple"]) {
+            [self handleDelegateApiUrl:MLApple result:request.responseJSONObject?:request.responseObject error:request.error];
         } else {
             [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
+            [self saveAccuunt:account password:password responseResullt:request.responseJSONObject];
         }
-        [self saveAccuunt:account password:password responseResullt:request.responseJSONObject];
     } failure:^(MLBaseRequest *request) {
         [MLProgressHUD hide];
-        if (parameter && [parameter[@"platform"] isEqualToString:@"Facebook"]) {
+        if (parameter && [parameter[@"platform"] isEqualToString:@"facebook"]) {
             [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
-        } else {
+        }  else if (parameter && [parameter[@"platform"] isEqualToString:@"apple"]) {
+            [self handleDelegateApiUrl:MLApple result:request.responseJSONObject?:request.responseObject error:request.error];
+        }  else {
             [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
         }
     }];
@@ -133,7 +137,7 @@
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         if (result) {
             NSString *userID = [NSString stringWithFormat:@"%@", result[@"userID"]];
-            [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":@"Facebook"}];
+            [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":@"facebook"}];
             [strongSelf handleDelegateApiUrl:MLFacebook result:result error:error];
         } else {
             [strongSelf handleDelegateApiUrl:MLFacebook result:result error:error];
@@ -141,12 +145,18 @@
     }];
 }
 
+/// 苹果 三方登陆
+/// @param account 苹果userid
+- (void)appleLoginWithAccount:(NSString *)account {
+    [self loginRequestWithAccount:account password:nil parameter:@{@"platform":@"apple"}];
+}
+
 /// 处理代理回调
 - (void)handleDelegateApiUrl:(MLApiUrlType)apiUrlType result:(id)result error:(NSError *)error {
     /// 处理请求结果
     [self handleRequestResullt: result apiUrl:apiUrlType];
     if ([self.delegate respondsToSelector:@selector(callBackApiUrl:status:result:error:)]) {
-        [self.delegate callBackApiUrl:apiUrlType status:result[key] result:result error:error];
+        [self.delegate callBackApiUrl:apiUrlType status:result[MLStatusKey] result:result error:error];
     }
 }
 
@@ -160,7 +170,7 @@
         case MLGuestLogin: {
             if ([resullt isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = (NSDictionary *)resullt;
-                if ([result[key] isEqualToString:value]) {
+                if ([result[MLStatusKey] isEqualToString:MLSuccessValue]) {
                     [MLUserManger share].gusetGameId = result[@"game_id"] ?:@"";
                 }
             }
@@ -181,7 +191,7 @@
      responseResullt:(id)responseResullt {
     if ([responseResullt isKindOfClass:[NSDictionary class]]) {
         NSDictionary *result = (NSDictionary *)responseResullt;
-        if ([result[key] isEqualToString:value]) {
+        if ([result[MLStatusKey] isEqualToString:MLSuccessValue]) {
             [MLUserManger share].account = account;
             [MLUserManger share].password = password;
             [MLUserManger share].gameId = result[@"game_id"] ?:@"";

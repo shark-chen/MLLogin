@@ -7,7 +7,7 @@
 
 #import "MLLoginView.h"
 #import "MLUserManger.h"
-
+#import "MLAppleLoginView.h"
 
 @implementation MLLoginView
 {
@@ -19,6 +19,7 @@
     UIButton *_otherButton;     /// 其他方式
     UIButton *_fackBookButton;  /// Fackbook按钮登陆
     UIButton *_gooleButton;     /// 谷歌按钮登陆
+    UIButton *_appleButton;  ///苹果登陆
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -82,6 +83,23 @@
     [_gooleButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     _gooleButton.tag = 107;
     [self addSubview:_gooleButton];
+    
+    if (@available(iOS 13.0, *)) {
+        __weak __typeof__(self) weakSelf = self;
+        _appleButton = [MLAppleLoginView createAppleButtonWithsuccess:^(ASAuthorization * _Nonnull authorization, NSString * _Nonnull user) {
+            NSLog(@"授权成功");
+            !weakSelf.appleBlock?:weakSelf.appleBlock(authorization, user, nil);
+        } failure:^(NSError * _Nonnull err) {
+            NSLog(@"授权失败");
+            !weakSelf.appleBlock?:weakSelf.appleBlock(nil, nil, err);
+        }];
+        [_appleButton setBackgroundImage:[self imageNamed:@"apple_icon"] forState:UIControlStateNormal];
+        [self addSubview:_appleButton];
+        _appleButton.layer.cornerRadius = 6.0f;
+        _appleButton.layer.masksToBounds = YES;
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 - (void)layouFrame {
@@ -101,6 +119,7 @@
     _fackBookButton.centerY = _otherButton.centerY;
     _gooleButton.frame = CGRectMake(_fackBookButton.maxX, _fackBookButton.y, 60, 60);
     _gooleButton.centerY = _otherButton.centerY;
+    _appleButton.frame = CGRectMake(_gooleButton.maxX, _gooleButton.y + 7, 40, 40);
 }
 
 - (void)imageBg {

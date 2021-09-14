@@ -6,8 +6,6 @@
 //
 
 #import "MLFacebookApi.h"
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 @implementation MLFacebookApi
 

@@ -26,6 +26,7 @@ static NSString *MLBaseURL = @"http://api.sixthkingdoms.com";
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *gameId;
 @property (strong, nonatomic) NSString *gusetGameId;
+@property (strong, nonatomic) NSString *appleUserId;
 @property (assign, nonatomic) BOOL isRemember;   /// 是否记住密码
 
 + (instancetype)share;

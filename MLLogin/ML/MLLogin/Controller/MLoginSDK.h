@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSString *password;
 @property (strong, nonatomic, readonly) NSString *gameId;
 @property (strong, nonatomic, readonly) NSString *gusetGameId;
+@property (strong, nonatomic, readonly) NSString *appleUserId;
 
 + (instancetype)share;
 

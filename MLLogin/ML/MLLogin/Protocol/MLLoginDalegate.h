@@ -16,6 +16,7 @@ typedef enum : NSInteger {
     MLForgetPassword,   /// 忘记密码
     MLFacebook,         /// facebook登陆
     MLGoole,            /// 谷歌登陆
+    MLApple,            /// 苹果登陆
     MLNnknown,          /// 未知
 } MLApiUrlType;
 

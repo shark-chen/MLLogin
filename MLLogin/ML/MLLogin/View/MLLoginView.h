@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)layouFrame;
 
+/// 苹果登陆回调
+@property (copy, nonatomic) void(^appleBlock)(ASAuthorization *authorization,NSString *user, NSError *err)API_AVAILABLE(ios(13.0)); 
+
 @end
 
 NS_ASSUME_NONNULL_END

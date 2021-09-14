@@ -35,6 +35,7 @@
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *gameId;
 @property (strong, nonatomic) NSString *gusetGameId;
+@property (strong, nonatomic) NSString *appleUserId;
 
 @end
 
@@ -45,12 +46,28 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[MLLoginSDKInfo alloc] init];
-        instance.account = [MLUserManger share].account;
-        instance.password = [MLUserManger share].password;
-        instance.gameId = [MLUserManger share].gameId;
-        instance.gusetGameId = [MLUserManger share].gusetGameId;
     });
     return instance;
+}
+
+- (NSString *)account {
+    return [MLUserManger share].account;
+}
+
+- (NSString *)password {
+    return [MLUserManger share].password;
+}
+
+- (NSString *)gameId {
+    return [MLUserManger share].gameId;
+}
+
+- (NSString *)gusetGameId {
+    return [MLUserManger share].gusetGameId;
+}
+
+- (NSString *)appleUserId {
+    return [MLUserManger share].appleUserId;
 }
 
 /// 清楚本地存储的账号数据
@@ -99,6 +116,7 @@
     [self layoutUI];
     [self clickMenthod];
     self.view.backgroundColor = [UIColor clearColor];
+
 }
 
 - (void)layoutUI {
@@ -167,6 +185,17 @@
                 break;
         }
     };
+    
+    if (@available(iOS 13.0, *)) {
+        _loginView.appleBlock = ^(ASAuthorization *authorization, NSString *user, NSError *err) {
+            __strong __typeof__(weakSelf) strongSelf = weakSelf;
+            if (user.length) {
+                [strongSelf.accountPresenter appleLoginWithAccount:user];
+            } else {
+                [strongSelf callBackApiUrl:MLApple status:MLErrorValue result:@{@"status":MLErrorValue} error:err];
+            }
+        };
+    }
     
     _registerVew.clickBlock = ^(NSInteger clickType) {
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
@@ -298,14 +327,15 @@
         [self.delegate callBackApiUrl:apiUrlType status:status result:result error:error];
     }
     switch (apiUrlType) {
-        case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: {
-            if ([status isEqualToString:value]) {
+        case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: case MLApple:{
+            [MLProgressHUD showText:@"login scuess"];
+            if ([status isEqualToString:MLSuccessValue]) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         }
             break;
         case MLAutoLogin: {
-            if ([status isEqualToString:value]) {
+            if ([status isEqualToString:MLSuccessValue]) {
 //                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
 //                _loginView.hidden = NO;

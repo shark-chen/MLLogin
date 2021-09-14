@@ -19,6 +19,16 @@
   "platforms": {
     "ios": "9.0"
   },
+  "prefix_header_contents": [
+    "@import FBSDKLoginKit;",
+    "@import AuthenticationServices;"
+  ],
+  "pod_target_xcconfig": {
+    "OTHER_LDFLAGS": [
+      "$(inherited)",
+      "-ObjC"
+    ]
+  },
   "dependencies": {
     "FBSDKLoginKit": [
 
@@ -44,6 +54,10 @@
       "name": "Tool",
       "source_files": "MLLogin/ML/Tool/**/*.{h,m,xib}",
       "resources": "MLLogin/ML/Tool/**/*.{bundle}"
+    },
+    {
+      "name": "Resouces",
+      "resources": "MLLogin/Resouces/*.{bundle}"
     }
   ]
 }

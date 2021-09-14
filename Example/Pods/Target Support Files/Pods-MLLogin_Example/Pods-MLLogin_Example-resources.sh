@@ -97,10 +97,10 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/../../MLLogin/ML/MLLoginResources.bundle"
+  install_resource "${PODS_ROOT}/../../MLLogin/Resouces/MLLoginResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/../../MLLogin/ML/MLLoginResources.bundle"
+  install_resource "${PODS_ROOT}/../../MLLogin/Resouces/MLLoginResources.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

@@ -21,12 +21,15 @@ PODS:
     - MLLogin/Common (= 0.1.0)
     - MLLogin/MLLogin (= 0.1.0)
     - MLLogin/MLNetwork (= 0.1.0)
+    - MLLogin/Resouces (= 0.1.0)
     - MLLogin/Tool (= 0.1.0)
   - MLLogin/Common (0.1.0):
     - FBSDKLoginKit
   - MLLogin/MLLogin (0.1.0):
     - FBSDKLoginKit
   - MLLogin/MLNetwork (0.1.0):
+    - FBSDKLoginKit
+  - MLLogin/Resouces (0.1.0):
     - FBSDKLoginKit
   - MLLogin/Tool (0.1.0):
     - FBSDKLoginKit
@@ -50,7 +53,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
   FBSDKCoreKit_Basics: 8f978bce195845f609b0ec6b425949d0d24f525b
   FBSDKLoginKit: d65eb587a9eaa89295338fb0bb3b358bde0b7ae4
-  MLLogin: 7c3e7901b88b9b695a5246b9daf89fd2c462ba1a
+  MLLogin: b2ea4180ab8dbd32559c44932f63433fb98f68ca
 
 PODFILE CHECKSUM: 79d53f762e6641b5f9274fdd17657e818ff0fc9f
 

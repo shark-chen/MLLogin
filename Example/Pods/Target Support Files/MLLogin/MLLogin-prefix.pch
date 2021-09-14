@@ -10,3 +10,5 @@
 #endif
 #endif
 
+@import FBSDKLoginKit;
+@import AuthenticationServices;

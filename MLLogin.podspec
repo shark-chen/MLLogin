@@ -30,12 +30,14 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
   
-#  s.source_files = 'MLLogin/ML/**/*'
-
-#  s.subspec 'ML' do |s|
-#    s.source_files = 'MLLogin/ML/**/*.{h,m,xib}'
-#    s.resources    = 'MLLogin/ML/**/*.{bundle}'
-#  end
+  s.prefix_header_contents = '@import FBSDKLoginKit;', '@import AuthenticationServices;'
+  
+  s.pod_target_xcconfig = {
+#      'CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF' => 'NO',
+#      'CLANG_WARN_DOCUMENTATION_COMMENTS' => 'NO',
+#      'GCC_PREPROCESSOR_DEFINITIONS' => 'GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1',
+      'OTHER_LDFLAGS' => ['$(inherited)','-ObjC'],
+  }
   
   s.subspec 'Common' do |s|
     s.source_files = 'MLLogin/ML/Common/**/*.{h,m,xib}'
@@ -57,9 +59,9 @@ TODO: Add long description of the pod here.
     s.resources    = 'MLLogin/ML/Tool/**/*.{bundle}'
   end
   
-  # s.resource_bundles = {
-  #   'MLLogin' => ['MLLogin/Assets/*.png']
-  # }
+  s.subspec 'Resouces' do |s|
+    s.resources    = 'MLLogin/Resouces/*.{bundle}'
+  end
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
    s.dependency 'FBSDKLoginKit'
