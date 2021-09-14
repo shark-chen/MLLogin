@@ -27,7 +27,7 @@
 
     UIView * fromView = fromVC.view;
     NSTimeInterval duration = 0.5;
-    CGRect parentRectB = CGRectMake(MLScreenWidth * 0.5 - 15, MLScreenHeight * 0.5 - 15 , 30, 30);
+    CGRect parentRectB = CGRectMake(MLScreenWidthL * 0.5 - 15, MLScreenHeightL * 0.5 - 15 , 30, 30);
     
     [UIView animateWithDuration:duration animations:^{
         fromView.transform = CGAffineTransformScale(fromView.transform, 0.05, 0.05);

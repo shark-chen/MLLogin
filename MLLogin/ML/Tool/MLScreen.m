@@ -39,15 +39,15 @@ bool isIpad(void) {
     return NO;
 }
 
-CGFloat HLLOrientedScreenWidth(){
+CGFloat HLLOrientedScreenWidth(void){
     return isLandscape()?KMLScreenSize().height:KMLScreenSize().width;
 }
 
-CGFloat HLLOrientedScreenHeight(){
+CGFloat HLLOrientedScreenHeight(void){
     return isLandscape()?KMLScreenSize().width:KMLScreenSize().height;
 }
 
-bool isLandscape() {
+bool isLandscape(void) {
     return UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]);
 }
 

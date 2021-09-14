@@ -20,6 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 #define MLScreenSize KMLScreenSize()
 
 /// 屏幕宽度
+#undef  MLScreenWidthL
+#define MLScreenWidthL HLLOrientedScreenWidth()
+
+/// 屏幕高度
+#undef  MLScreenHeightL
+#define MLScreenHeightL HLLOrientedScreenHeight()
+
+/// 屏幕宽度
 #undef  MLScreenWidth
 #define MLScreenWidth KMLScreenSize().width
 
@@ -45,6 +53,12 @@ NS_ASSUME_NONNULL_BEGIN
 CGSize KMLScreenSize(void);
 
 CGRect KMLScreenBounds(void);
+
+CGFloat HLLOrientedScreenWidth(void);
+
+CGFloat HLLOrientedScreenHeight(void);
+
+bool isLandscape(void);
 
 bool isIpad(void);
 

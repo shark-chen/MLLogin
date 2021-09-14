@@ -115,14 +115,14 @@
     }
     [self layoutUI];
     [self clickMenthod];
+    [self adddNotification];
     self.view.backgroundColor = [UIColor clearColor];
-
 }
 
 - (void)layoutUI {
-    CGFloat margint = isIpad() ? (MLScreenWidth * 0.5 - 177):30;
-    CGFloat width = isIpad() ? 354:(MLScreenWidth - margint * 2);
-    _loginView = [[MLLoginView alloc] initWithFrame:CGRectMake(margint, MLScreenHeight * 0.5 - 175, width, 350)];
+    CGFloat margint = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? (MLScreenWidthL * 0.5 - 177):30;
+    CGFloat width = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? 354:(MLScreenWidthL - margint * 2);
+    _loginView = [[MLLoginView alloc] initWithFrame:CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350)];
     _loginView.accountTF.text = [MLUserManger share].account;
     _loginView.passwordTF.text = [MLUserManger share].password;
 //    _loginView.hidden = YES;
@@ -139,6 +139,18 @@
     _bindView = [[MLBindView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
     _bindView.hidden = YES;
     [self.view addSubview:_bindView];
+}
+
+- (void)adddNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)statusBarOrientationChange:(NSNotification *)notification {
+    CGFloat margint = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? (MLScreenWidthL * 0.5 - 177):30;
+    CGFloat width = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? 354:(MLScreenWidthL - margint * 2);
+    _loginView.frame = CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350);
+    _forgetPasswordView.frame = CGRectMake(margint, _loginView.y, width , 350);
+    _bindView.frame = CGRectMake(margint, _loginView.y, width , 350);
 }
 
 - (void)clearAccout {
@@ -305,20 +317,6 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
     return [[HLLTransitioning alloc]init];
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                  animationControllerForOperation:(UINavigationControllerOperation)operation
-                                               fromViewController:(UIViewController *)fromVC
-                                                 toViewController:(UIViewController *)toVC {
-    
-    if (operation == UINavigationControllerOperationPush) {
-        HLLTransitioning *pushTransition = [[HLLTransitioning alloc] init];
-        return pushTransition;
-    } else {
-        HLLTransitioning *pushTransition = [[HLLTransitioning alloc] init];
-        return pushTransition;
-    }
 }
 
 /// 请求回调

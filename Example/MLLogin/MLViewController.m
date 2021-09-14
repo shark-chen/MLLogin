@@ -13,6 +13,7 @@
 
 @interface MLViewController ()<MLLoginDalegate>
 
+@property (strong, nonatomic) UILabel *lb;
 
 @end
 
@@ -21,18 +22,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UILabel *lb = [[UILabel alloc] init];
-    lb.text = @"点击屏幕启动登陆SDK";
-    lb.frame = CGRectMake(0, 350, [UIScreen mainScreen].bounds.size.width, 60);
-    lb.textAlignment = NSTextAlignmentCenter;
-    lb.backgroundColor = [UIColor yellowColor];
-    [self.view addSubview:lb];
+    _lb = [[UILabel alloc] init];
+    _lb.text = @"点击屏幕启动登陆SDK";
+        
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
+    _lb.frame = CGRectMake(0, height * 0.4 , width, 60);
+    _lb.textAlignment = NSTextAlignmentCenter;
+    _lb.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:_lb];
+    
+    [self adddNotification];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)adddNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)statusBarOrientationChange:(NSNotification *)notification {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+
+    _lb.frame = CGRectMake(0, height * 0.4 , width, 60);
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
