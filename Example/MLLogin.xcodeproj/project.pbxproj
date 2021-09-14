@@ -65,6 +65,7 @@
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9DCA74E90850B369F9853B70 /* Pods-MLLogin_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLLogin_Tests.debug.xcconfig"; path = "Target Support Files/Pods-MLLogin_Tests/Pods-MLLogin_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF36C4B653B2893D7A73A059 /* Pods-MLLogin_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLLogin_Tests.release.xcconfig"; path = "Target Support Files/Pods-MLLogin_Tests/Pods-MLLogin_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		DA430F0B26F04058002E0403 /* MLLogin_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MLLogin_Example.entitlements; sourceTree = "<group>"; };
 		E3FD9DF1C500937543AF5DD4 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		FD8AA0688E1E2C1A6E64FE83 /* Pods_MLLogin_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLLogin_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -98,6 +99,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				DA430F0B26F04058002E0403 /* MLLogin_Example.entitlements */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for MLLogin */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -208,7 +210,6 @@
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
 				DFC47CB2A7B2D109E83CDC3D /* [CP] Embed Pods Frameworks */,
-				25B90A15F6B07CFC6A2CD124 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -300,21 +301,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		25B90A15F6B07CFC6A2CD124 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MLLogin_Example/Pods-MLLogin_Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B53278D37AB686A4B72F81DD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,6 +497,7 @@
 			baseConfigurationReference = 65132948D0080570A3F1BB22 /* Pods-MLLogin_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MLLogin_Example.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4HS76TFBWX;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -531,6 +518,7 @@
 			baseConfigurationReference = 2CE5F7368E4C5CA617AB466D /* Pods-MLLogin_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MLLogin_Example.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4HS76TFBWX;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

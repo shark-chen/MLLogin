@@ -26,9 +26,24 @@
   },
   "subspecs": [
     {
-      "name": "ML",
-      "source_files": "MLLogin/ML/**/*.{h,m,xib}",
-      "resources": "MLLogin/ML/**/*.{bundle}"
+      "name": "Common",
+      "source_files": "MLLogin/ML/Common/**/*.{h,m,xib}",
+      "resources": "MLLogin/ML/Common/**/*.{bundle}"
+    },
+    {
+      "name": "MLLogin",
+      "source_files": "MLLogin/ML/MLLogin/**/*.{h,m,xib}",
+      "resources": "MLLogin/ML/MLLogin/**/*.{bundle}"
+    },
+    {
+      "name": "MLNetwork",
+      "source_files": "MLLogin/ML/MLNetwork/**/*.{h,m,xib}",
+      "resources": "MLLogin/ML/MLNetwork/**/*.{bundle}"
+    },
+    {
+      "name": "Tool",
+      "source_files": "MLLogin/ML/Tool/**/*.{h,m,xib}",
+      "resources": "MLLogin/ML/Tool/**/*.{bundle}"
     }
   ]
 }

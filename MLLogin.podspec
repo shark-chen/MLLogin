@@ -30,9 +30,31 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
   
-  s.subspec 'ML' do |s|
-    s.source_files = 'MLLogin/ML/**/*.{h,m,xib}'
-    s.resources    = 'MLLogin/ML/**/*.{bundle}'
+#  s.source_files = 'MLLogin/ML/**/*'
+
+#  s.subspec 'ML' do |s|
+#    s.source_files = 'MLLogin/ML/**/*.{h,m,xib}'
+#    s.resources    = 'MLLogin/ML/**/*.{bundle}'
+#  end
+  
+  s.subspec 'Common' do |s|
+    s.source_files = 'MLLogin/ML/Common/**/*.{h,m,xib}'
+    s.resources    = 'MLLogin/ML/Common/**/*.{bundle}'
+  end
+  
+  s.subspec 'MLLogin' do |s|
+    s.source_files = 'MLLogin/ML/MLLogin/**/*.{h,m,xib}'
+    s.resources    = 'MLLogin/ML/MLLogin/**/*.{bundle}'
+  end
+  
+  s.subspec 'MLNetwork' do |s|
+    s.source_files = 'MLLogin/ML/MLNetwork/**/*.{h,m,xib}'
+    s.resources    = 'MLLogin/ML/MLNetwork/**/*.{bundle}'
+  end
+  
+  s.subspec 'Tool' do |s|
+    s.source_files = 'MLLogin/ML/Tool/**/*.{h,m,xib}'
+    s.resources    = 'MLLogin/ML/Tool/**/*.{bundle}'
   end
   
   # s.resource_bundles = {
