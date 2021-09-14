@@ -67,6 +67,8 @@
             [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
         } else if (parameter && [parameter[@"platform"] isEqualToString:@"apple"]) {
             [self handleDelegateApiUrl:MLApple result:request.responseJSONObject?:request.responseObject error:request.error];
+        } else if (parameter && [parameter[@"platform"] isEqualToString:@"goole"]) {
+            [self handleDelegateApiUrl:MLGoole result:request.responseJSONObject?:request.responseObject error:request.error];
         } else {
             [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
             [self saveAccuunt:account password:password responseResullt:request.responseJSONObject];
@@ -77,7 +79,9 @@
             [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
         }  else if (parameter && [parameter[@"platform"] isEqualToString:@"apple"]) {
             [self handleDelegateApiUrl:MLApple result:request.responseJSONObject?:request.responseObject error:request.error];
-        }  else {
+        }  else if (parameter && [parameter[@"platform"] isEqualToString:@"goole"]) {
+            [self handleDelegateApiUrl:MLGoole result:request.responseJSONObject?:request.responseObject error:request.error];
+        } else {
             [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
         }
     }];
@@ -149,6 +153,10 @@
 /// @param account 苹果userid
 - (void)appleLoginWithAccount:(NSString *)account {
     [self loginRequestWithAccount:account password:nil parameter:@{@"platform":@"apple"}];
+}
+
+- (void)gooleLoginWithAccount:(NSString *)account {
+    [self loginRequestWithAccount:account password:nil parameter:@{@"platform":@"goole"}];
 }
 
 /// 处理代理回调

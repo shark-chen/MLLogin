@@ -30,7 +30,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
   
-  s.prefix_header_contents = '@import FBSDKLoginKit;', '@import AuthenticationServices;'
+  s.prefix_header_contents = '@import FBSDKLoginKit;', '@import AuthenticationServices;', '@import GoogleSignIn;'
   
   s.pod_target_xcconfig = {
 #      'CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF' => 'NO',
@@ -65,6 +65,6 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
    s.dependency 'FBSDKLoginKit'
-#   s.dependency 'GoogleSignIn'
+   s.dependency 'GoogleSignIn'
   # s.dependency 'AFNetworking', '~> 2.3'
 end

@@ -21,7 +21,8 @@
   },
   "prefix_header_contents": [
     "@import FBSDKLoginKit;",
-    "@import AuthenticationServices;"
+    "@import AuthenticationServices;",
+    "@import GoogleSignIn;"
   ],
   "pod_target_xcconfig": {
     "OTHER_LDFLAGS": [
@@ -31,6 +32,9 @@
   },
   "dependencies": {
     "FBSDKLoginKit": [
+
+    ],
+    "GoogleSignIn": [
 
     ]
   },

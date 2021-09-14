@@ -15,6 +15,7 @@
 #import "MLForgetPasswordView.h"
 #import "MLBindView.h"
 #import "Header.h"
+#import "GoogleSignIn.h"
 
 @implementation MLLoginConfig
 
@@ -86,6 +87,7 @@
 }
 
 @property (strong, nonatomic) MLAccountPresenter *accountPresenter;  /// p 层
+@property (strong, nonatomic) MLLoginConfig *loginConfig;
 
 @end
 
@@ -103,6 +105,7 @@
     if (self) {
         [MLUserManger share].encryptKey = encryptKey;
         [MLUserManger share].game = game;
+        self.loginConfig = config;
         [self creatVCDelegate];
     }
     return self;
@@ -190,7 +193,7 @@
                 [strongSelf.accountPresenter facebookLogin:nil];
                 break;
             case 7:   /// goole
-                [strongSelf.accountPresenter visitorRequest];
+                [strongSelf gooleLogin];
                 break;
             default:
                 strongSelf->_registerVew.hidden = NO;
@@ -291,6 +294,23 @@
     };
 }
 
+/// goole登陆
+- (void)gooleLogin {
+    __weak __typeof__(self) weakSelf = self;
+    GIDConfiguration *signInConfig = [[GIDConfiguration alloc] initWithClientID:self.loginConfig.gooleClientID?:@"748197369663-mtcr8e00arei2bogdnofsoabdbsi86k2.apps.googleusercontent.com"];
+    [GIDSignIn.sharedInstance signInWithConfiguration:signInConfig
+                           presentingViewController:self
+                                           callback:^(GIDGoogleUser * _Nullable user,
+                                                      NSError * _Nullable error) {
+        __strong __typeof__(weakSelf) strongSelf = weakSelf;
+        if (error) {
+            [strongSelf callBackApiUrl:MLGoole status:MLErrorValue result:@{@"status":MLErrorValue} error:error];
+        } else {
+            [strongSelf.accountPresenter gooleLoginWithAccount: user.userID];
+        }
+    }];
+}
+
 #pragma mark - private menthod
 
 -(void)creatVCDelegate {
@@ -325,7 +345,7 @@
         [self.delegate callBackApiUrl:apiUrlType status:status result:result error:error];
     }
     switch (apiUrlType) {
-        case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: case MLApple:{
+        case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: case MLApple: case MLGoole: {
             [MLProgressHUD showText:@"login scuess"];
             if ([status isEqualToString:MLSuccessValue]) {
                 [self dismissViewControllerAnimated:YES completion:nil];

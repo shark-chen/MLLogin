@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 是否需要自动登陆, 默认是自动打开的
 @property (assign, nonatomic) BOOL needAutoLogin;
+/// 谷歌用户端ID，可动态配置
+@property (strong, nonatomic) NSString *gooleClientID;
 
 @end
 
@@ -40,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// dalagate get call back data
 @property (weak, nonatomic) id<MLLoginDalegate> delegate;
-@property (strong, nonatomic) MLLoginConfig *loginConfig;
+@property (strong, nonatomic, readonly) MLLoginConfig *loginConfig;
      
 /// init function
 /// @param game gameName

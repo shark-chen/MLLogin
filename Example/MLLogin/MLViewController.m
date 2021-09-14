@@ -9,6 +9,7 @@
 #import "MLViewController.h"
 #import "MLoginSDK.h"
 #import "MLAppleLoginView.h"
+#import <GoogleSignIn.h>
 
 
 @interface MLViewController ()<MLLoginDalegate>
@@ -34,6 +35,7 @@
     [self.view addSubview:_lb];
     
     [self adddNotification];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,11 +56,14 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    MLoginSDK *vc = [[MLoginSDK alloc] initWithGame:@"SK-APP-001" encryptKey:@"#MRT-@KK?8425$F1Q" config:nil];
-    vc.delegate = self;
+    
     MLLoginConfig *a = [[MLLoginConfig alloc] init];
     a.needAutoLogin = NO;
-    vc.loginConfig = a;
+    a.gooleClientID = @"748197369663-mtcr8e00arei2bogdnofsoabdbsi86k2.apps.googleusercontent.com";
+    
+    MLoginSDK *vc = [[MLoginSDK alloc] initWithGame:@"SK-APP-001" encryptKey:@"#MRT-@KK?8425$F1Q" config:a];
+    vc.delegate = self;
+
 //    [vc clearAccout];
     [vc show: self];
     
