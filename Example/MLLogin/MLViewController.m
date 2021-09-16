@@ -72,7 +72,7 @@
 }
 
 - (void)callBackApiUrl:(MLApiUrlType)apiUrlType status:(NSString *)status result:(id)result error:(NSError *)error {
-    NSLog(@"%ld-- %@-- %@", (unsigned long)apiUrlType, status, result);
+    NSLog(@"cheenwe %ld-- %@-- %@", (unsigned long)apiUrlType, status, result);
 }
 
 @end

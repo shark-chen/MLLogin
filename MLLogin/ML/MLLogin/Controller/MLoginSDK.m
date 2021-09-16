@@ -348,8 +348,8 @@
     }
     switch (apiUrlType) {
         case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: case MLApple: case MLGoole: {
-            [MLProgressHUD showText:@"login scuess"];
             if ([status isEqualToString:MLSuccessValue]) {
+                [MLProgressHUD showText:@"login scuess"];
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         }
