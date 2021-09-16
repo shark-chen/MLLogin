@@ -24,6 +24,7 @@
     self = [super init];
     if (self) {
         self.needAutoLogin = YES;
+        self.showAppleLogin = YES;
     }
     return self;
 }
@@ -128,6 +129,7 @@
     _loginView = [[MLLoginView alloc] initWithFrame:CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350)];
     _loginView.accountTF.text = [MLUserManger share].account;
     _loginView.passwordTF.text = [MLUserManger share].password;
+    _loginView.showAppleLogin = self.loginConfig.showAppleLogin;
 //    _loginView.hidden = YES;
     [self.view addSubview:_loginView];
     
@@ -306,7 +308,7 @@
         if (error) {
             [strongSelf callBackApiUrl:MLGoole status:MLErrorValue result:@{@"status":MLErrorValue} error:error];
         } else {
-            [strongSelf.accountPresenter gooleLoginWithAccount: user.userID];
+            [strongSelf.accountPresenter gooleLoginWithAccount: user.userID parameter:@{@"platform":@"goole"}];
         }
     }];
 }

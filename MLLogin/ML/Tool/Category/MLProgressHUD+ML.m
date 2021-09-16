@@ -14,6 +14,7 @@
     MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLTopView animated:YES];
     hud.mode = MLProgressHUDModeDeterminate;
     hud.label.text = NSLocalizedString(text, @"HUD loading title");
+    [hud hideAnimated:YES afterDelay:3.0f];
     return hud;
 }
 

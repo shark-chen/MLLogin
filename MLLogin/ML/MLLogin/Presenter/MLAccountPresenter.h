@@ -71,8 +71,9 @@ static NSString *MLErrorValue = @"error";
 - (void)appleLoginWithAccount:(NSString *)account;
 
 /// 谷歌 三方登陆
-/// @param account 苹果userid
-- (void)gooleLoginWithAccount:(NSString *)account;
+/// @param account 谷歌userid
+/// @param parameter 其他参数
+- (void)gooleLoginWithAccount:(NSString *)account parameter:(NSDictionary * __nullable)parameter;
 
 @end
 

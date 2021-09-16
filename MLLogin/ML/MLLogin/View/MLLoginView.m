@@ -95,7 +95,7 @@
         }];
         [_appleButton setBackgroundImage:[self imageNamed:@"apple_icon"] forState:UIControlStateNormal];
         [self addSubview:_appleButton];
-        _appleButton.layer.cornerRadius = 6.0f;
+        _appleButton.layer.cornerRadius = 2.0f;
         _appleButton.layer.masksToBounds = YES;
     } else {
         // Fallback on earlier versions
@@ -119,7 +119,28 @@
     _fackBookButton.centerY = _otherButton.centerY;
     _gooleButton.frame = CGRectMake(_fackBookButton.maxX, _fackBookButton.y, 60, 60);
     _gooleButton.centerY = _otherButton.centerY;
-    _appleButton.frame = CGRectMake(_gooleButton.maxX, _gooleButton.y + 7, 40, 40);
+    _appleButton.frame = CGRectMake(_gooleButton.maxX + 4, _gooleButton.y + 5, 46, 46);
+}
+
+- (void)setShowAppleLogin:(BOOL)showAppleLogin {
+    if (showAppleLogin) {
+        _appleButton.hidden = NO;
+        _otherButton.frame = CGRectMake(self.accountTF.x - 30 , _registerButton.maxY + 25, self.passwordTF.width * 0.5, 30);
+        _fackBookButton.frame = CGRectMake(_otherButton.maxX, _otherButton.y - 15, 60, 60);
+        _fackBookButton.centerY = _otherButton.centerY;
+        
+        _gooleButton.frame = CGRectMake(_fackBookButton.maxX - 10, _fackBookButton.y, 60, 60);
+        _gooleButton.centerY = _otherButton.centerY;
+        _appleButton.frame = CGRectMake(_gooleButton.maxX + 6, _gooleButton.y + 5, 47, 47);
+    } else {
+        _appleButton.hidden = YES;
+        _otherButton.frame = CGRectMake(self.accountTF.x , _registerButton.maxY + 25, self.passwordTF.width * 0.5, 30);
+        _fackBookButton.frame = CGRectMake(_otherButton.maxX, _otherButton.y - 15, 60, 60);
+        _fackBookButton.centerY = _otherButton.centerY;
+        _gooleButton.frame = CGRectMake(_fackBookButton.maxX, _fackBookButton.y, 60, 60);
+        _gooleButton.centerY = _otherButton.centerY;
+        _appleButton.frame = CGRectMake(_gooleButton.maxX + 6, _gooleButton.y + 5, 47, 47);
+    }
 }
 
 - (void)imageBg {

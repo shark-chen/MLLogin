@@ -142,7 +142,6 @@
         if (result) {
             NSString *userID = [NSString stringWithFormat:@"%@", result[@"userID"]];
             [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":@"facebook"}];
-            [strongSelf handleDelegateApiUrl:MLFacebook result:result error:error];
         } else {
             [strongSelf handleDelegateApiUrl:MLFacebook result:result error:error];
         }
@@ -155,8 +154,9 @@
     [self loginRequestWithAccount:account password:nil parameter:@{@"platform":@"apple"}];
 }
 
-- (void)gooleLoginWithAccount:(NSString *)account {
-    [self loginRequestWithAccount:account password:nil parameter:@{@"platform":@"goole"}];
+- (void)gooleLoginWithAccount:(NSString *)account
+                    parameter:(NSDictionary * __nullable)parameter {
+    [self loginRequestWithAccount:account password:nil parameter:parameter];
 }
 
 /// 处理代理回调
