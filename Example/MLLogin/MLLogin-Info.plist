@@ -29,7 +29,7 @@
 			<string>fackbook</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb168244128784324</string>
+				<string>fb1284735555320353</string>
 			</array>
 		</dict>
 		<dict>
@@ -46,7 +46,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>FacebookAppID</key>
-	<string>168244128784324</string>
+	<string>1284735555320353</string>
 	<key>FacebookClientToken</key>
 	<string>CLIENT-TOKEN</string>
 	<key>FacebookDisplayName</key>
