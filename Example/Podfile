@@ -6,6 +6,8 @@ platform :ios, '9.0'
 
 target 'MLLogin_Example' do
   pod 'MLLogin', :path => '../'
+  
+#  pod 'LookinServer' , :configurations => ['Debug']
 
   target 'MLLogin_Tests' do
     inherit! :search_paths

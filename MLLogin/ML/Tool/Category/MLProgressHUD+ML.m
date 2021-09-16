@@ -11,7 +11,7 @@
 @implementation MLProgressHUD (ML)
 
 + (instancetype)showLoadingText:(NSString *)text {
-    MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLTopView animated:YES];
+    MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
     hud.mode = MLProgressHUDModeDeterminate;
     hud.label.text = NSLocalizedString(text, @"HUD loading title");
     [hud hideAnimated:YES afterDelay:3.0f];
@@ -19,12 +19,12 @@
 }
 
 + (instancetype)showLoading {
-    MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLTopView animated:YES];
+    MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
     return hud;
 }
 
 + (instancetype)showText:(NSString *)text {
-    MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLTopView animated:YES];
+    MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
     hud.mode = MLProgressHUDModeText;
     hud.label.text = NSLocalizedString(text, @"HUD loading title");
     [hud hideAnimated:YES afterDelay:1.5f];
@@ -32,7 +32,7 @@
 }
 
 + (BOOL)hide {
-    MLProgressHUD *hud = [self HUDForView:MLTopView];
+    MLProgressHUD *hud = [self HUDForView:MLKeyWindow];
     if (hud != nil) {
         hud.removeFromSuperViewOnHide = YES;
         [hud hideAnimated:YES];
