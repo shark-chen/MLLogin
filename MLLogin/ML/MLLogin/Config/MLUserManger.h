@@ -11,6 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSString *MLBaseURL = @"http://api.sixthkingdoms.com";
 
+static NSString *MLFaceBookLogin = @"facebook";
+static NSString *MLGooleLogin = @"goole";
+static NSString *MLAppleLogin = @"apple";
+
 @interface MLParameter : NSObject
 
 + (NSDictionary*)publicParametersDic;
@@ -28,6 +32,7 @@ static NSString *MLBaseURL = @"http://api.sixthkingdoms.com";
 @property (strong, nonatomic) NSString *gusetGameId;
 @property (strong, nonatomic) NSString *appleUserId;
 @property (assign, nonatomic) BOOL isRemember;   /// 是否记住密码
+@property (strong, nonatomic) NSString *platform;
 
 + (instancetype)share;
 

@@ -58,7 +58,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     MLLoginConfig *a = [[MLLoginConfig alloc] init];
-    a.needAutoLogin = NO;
+//    a.needAutoLogin = YES;
     a.gooleClientID = @"748197369663-mtcr8e00arei2bogdnofsoabdbsi86k2.apps.googleusercontent.com";
     a.showAppleLogin = YES;
 

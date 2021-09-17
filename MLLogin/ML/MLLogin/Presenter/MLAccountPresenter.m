@@ -30,11 +30,11 @@
 }
 
 - (void)autoLogin {
-    if ([MLUserManger share].account.length && [MLUserManger share].password.length) {
+    if ([MLUserManger share].account.length && [MLUserManger share].password.length) { /// 账号自动登陆
         [self loginRequestWithAccount:[MLUserManger share].account password:[MLUserManger share].password parameter:nil];
     } else {
         if ([self.delegate respondsToSelector:@selector(callBackApiUrl:status:result:error:)]) {
-            [self.delegate callBackApiUrl:MLAutoLogin status:@"error" result:@{@"status":@"error"} error:nil];
+            [self.delegate callBackApiUrl:MLAutoLogin status:@"error" result:@{@"status":@"error", @"info":@"account not exist"} error:nil];
         }
     }
 }
@@ -63,11 +63,11 @@
         // 你可以直接在这里使用 self
         [MLProgressHUD hide];
         /// 登陆注册完保存账户数据
-        if (parameter && [parameter[@"platform"] isEqualToString:@"facebook"]) {
+        if (parameter && [parameter[@"platform"] isEqualToString:MLFaceBookLogin]) {
             [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
-        } else if (parameter && [parameter[@"platform"] isEqualToString:@"apple"]) {
+        } else if (parameter && [parameter[@"platform"] isEqualToString:MLAppleLogin]) {
             [self handleDelegateApiUrl:MLApple result:request.responseJSONObject?:request.responseObject error:request.error];
-        } else if (parameter && [parameter[@"platform"] isEqualToString:@"goole"]) {
+        } else if (parameter && [parameter[@"platform"] isEqualToString:MLGooleLogin]) {
             [self handleDelegateApiUrl:MLGoole result:request.responseJSONObject?:request.responseObject error:request.error];
         } else {
             [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
@@ -75,11 +75,11 @@
         }
     } failure:^(MLBaseRequest *request) {
         [MLProgressHUD hide];
-        if (parameter && [parameter[@"platform"] isEqualToString:@"facebook"]) {
+        if (parameter && [parameter[@"platform"] isEqualToString:MLFaceBookLogin]) {
             [self handleDelegateApiUrl:MLFacebook result:request.responseJSONObject?:request.responseObject error:request.error];
-        }  else if (parameter && [parameter[@"platform"] isEqualToString:@"apple"]) {
+        }  else if (parameter && [parameter[@"platform"] isEqualToString:MLAppleLogin]) {
             [self handleDelegateApiUrl:MLApple result:request.responseJSONObject?:request.responseObject error:request.error];
-        }  else if (parameter && [parameter[@"platform"] isEqualToString:@"goole"]) {
+        }  else if (parameter && [parameter[@"platform"] isEqualToString:MLGooleLogin]) {
             [self handleDelegateApiUrl:MLGoole result:request.responseJSONObject?:request.responseObject error:request.error];
         } else {
             [self handleDelegateApiUrl:MLLogin result:request.responseJSONObject?:request.responseObject error:request.error];
@@ -141,17 +141,19 @@
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         if (result) {
             NSString *userID = [NSString stringWithFormat:@"%@", result[@"userID"]];
-            [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":@"facebook"}];
-        } else {
-            [strongSelf handleDelegateApiUrl:MLFacebook result:result error:error];
+            if (userID.length) {
+                [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":MLFaceBookLogin}];
+                return;
+            }
         }
+        [strongSelf handleDelegateApiUrl:MLFacebook result:result error:error];
     }];
 }
 
 /// 苹果 三方登陆
 /// @param account 苹果userid
 - (void)appleLoginWithAccount:(NSString *)account {
-    [self loginRequestWithAccount:account password:nil parameter:@{@"platform":@"apple"}];
+    [self loginRequestWithAccount:account password:nil parameter:@{@"platform":MLAppleLogin}];
 }
 
 - (void)gooleLoginWithAccount:(NSString *)account

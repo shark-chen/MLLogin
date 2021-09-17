@@ -23,7 +23,7 @@
 {
     self = [super init];
     if (self) {
-        self.needAutoLogin = YES;
+        self.needAutoLogin = NO;
         self.showAppleLogin = YES;
     }
     return self;
