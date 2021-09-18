@@ -14,6 +14,7 @@
 #import "MLRegisterVew.h"
 #import "MLForgetPasswordView.h"
 #import "MLBindView.h"
+#import "MLBindNotifyView.h"
 #import "Header.h"
 #import "GoogleSignIn.h"
 
@@ -24,7 +25,6 @@
     self = [super init];
     if (self) {
         self.needAutoLogin = NO;
-        self.showAppleLogin = YES;
     }
     return self;
 }
@@ -85,6 +85,7 @@
     MLRegisterVew *_registerVew;
     MLForgetPasswordView *_forgetPasswordView;
     MLBindView *_bindView;
+    MLBindNotifyView *_bindNotifyView;
 }
 
 @property (strong, nonatomic) MLAccountPresenter *accountPresenter;  /// p 层
@@ -119,18 +120,19 @@
     }
     [self layoutUI];
     [self clickMenthod];
+    [self bindClickMenthod];
     [self adddNotification];
     self.view.backgroundColor = [UIColor clearColor];
 }
 
 - (void)layoutUI {
+    BOOL showBind = self.loginConfig.showBind;
     CGFloat margint = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? (MLScreenWidthL * 0.5 - 177):30;
     CGFloat width = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? 354:(MLScreenWidthL - margint * 2);
     _loginView = [[MLLoginView alloc] initWithFrame:CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350)];
     _loginView.accountTF.text = [MLUserManger share].account;
     _loginView.passwordTF.text = [MLUserManger share].password;
-    _loginView.showAppleLogin = self.loginConfig.showAppleLogin;
-//    _loginView.hidden = YES;
+    _loginView.hidden = showBind;
     [self.view addSubview:_loginView];
     
     _registerVew = [[MLRegisterVew alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
@@ -140,6 +142,10 @@
     _forgetPasswordView = [[MLForgetPasswordView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width , 350)];
     _forgetPasswordView.hidden = YES;
     [self.view addSubview:_forgetPasswordView];
+    
+    _bindNotifyView = [[MLBindNotifyView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
+    _bindNotifyView.hidden = !showBind;
+    [self.view addSubview:_bindNotifyView];
     
     _bindView = [[MLBindView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
     _bindView.hidden = YES;
@@ -265,7 +271,26 @@
                 break;
         }
     };
-    
+}
+
+- (void)bindClickMenthod {
+    __weak __typeof__(self) weakSelf = self;
+    _bindNotifyView.clickBlock = ^(NSInteger clickType) {
+        __strong __typeof__(weakSelf) strongSelf = weakSelf;
+        switch (clickType) {
+            case 1:  /// 返回
+                [strongSelf dismissViewControllerAnimated:YES completion:nil];
+                break;
+            case 2:  /// 游客登陆
+                [strongSelf.accountPresenter visitorRequest];
+                break;
+            case 3:  /// 绑定
+                strongSelf->_bindView.hidden = NO;
+                break;
+            default:
+                break;
+        }
+    };
     _bindView.clickBlock = ^(NSInteger clickType) {
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         switch (clickType) {

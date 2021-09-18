@@ -25,6 +25,7 @@
 #import "MLLoginDalegate.h"
 #import "MLAppleLoginView.h"
 #import "MLBaseAccountView.h"
+#import "MLBindNotifyView.h"
 #import "MLBindView.h"
 #import "MLForgetPasswordView.h"
 #import "MLLoginView.h"

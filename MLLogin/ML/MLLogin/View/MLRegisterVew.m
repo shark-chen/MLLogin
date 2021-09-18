@@ -40,13 +40,13 @@
     _infoLabel = [[UILabel alloc] init];
     _infoLabel.text = @"Already have an account?";
     _infoLabel.font = [UIFont systemFontOfSize:12];
-    _infoLabel.textColor = [UIColor colorWithHex:0x657DE9 alpha:1];
+    _infoLabel.textColor = [UIColor colorWithHex:0x6D87FB alpha:1];
     [self addSubview:_infoLabel];
 
     _textLabel = [[UILabel alloc] init];
     _textLabel.text = @"By registering, you agress to SIXTHKINGDOMS's Term & Service and Privacy Policy";
     _textLabel.font = [UIFont systemFontOfSize:6.5];
-    _textLabel.textColor = [UIColor colorWithHex:0x657DE9 alpha:1];
+    _textLabel.textColor = [UIColor colorWithHex:0x6D87FB alpha:1];
     _textLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_textLabel];
 }

@@ -34,7 +34,7 @@
     [self addSubview:self.rePasswordTF];
     [self addSubview:self.emailTF];
     [self addSubview:self.loginButton];
-    [self.loginButton setBackgroundImage:[self imageNamed:@"register_icon"] forState:UIControlStateNormal];
+    [self.loginButton setBackgroundImage:[self imageNamed:@"bind_icon"] forState:UIControlStateNormal];
     [self.loginButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     self.loginButton.tag = 102;
 
@@ -47,7 +47,7 @@
     _textLabel = [[UILabel alloc] init];
     _textLabel.text = @"By registering, you agress to SIXTHKINGDOMS's Term & Service and Privacy Policy";
     _textLabel.font = [UIFont systemFontOfSize:6.5];
-    _textLabel.textColor = [UIColor colorWithHex:0x5B72CC alpha:1];
+    _textLabel.textColor = [UIColor colorWithHex:0x6D87FB alpha:1];
     _textLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_textLabel];
 }

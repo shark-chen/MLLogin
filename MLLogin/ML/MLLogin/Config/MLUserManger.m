@@ -91,13 +91,11 @@ static NSString *MLPlatformID = @"ML_GAME_PLATFORMID";
 - (void)clearAccout {
     [MLKeychain deleteKeyData: MLAccountKey];
     [MLKeychain deleteKeyData: MLPasswordKey];
-    [MLKeychain deleteKeyData: MLGusetGameId];
     [MLKeychain deleteKeyData: MLGameId];
     [MLKeychain deleteKeyData: MLPlatformID];
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MLIsRemember];
     self.account = @"";
     self.password = @"";
-    self.gusetGameId = @"";
     self.gameId = @"";
     self.platform = @"";
 }

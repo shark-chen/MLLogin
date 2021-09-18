@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL showAppleLogin;  /// 默认展示
 
 /// 苹果登陆回调
-@property (copy, nonatomic) void(^appleBlock)(ASAuthorization *authorization,NSString *user, NSError *err)API_AVAILABLE(ios(13.0)); 
+@property (copy, nonatomic) void(^appleBlock)(ASAuthorization * __nullable authorization, NSString * __nullable user, NSError *__nullable  err)API_AVAILABLE(ios(13.0));
 
 @end
 
