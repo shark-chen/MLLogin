@@ -16,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL needAutoLogin;
 /// 谷歌用户端ID，可动态配置
 @property (strong, nonatomic) NSString *gooleClientID;
-/// 展示绑定
-@property (assign, nonatomic) BOOL showBind;
 
 @end
 

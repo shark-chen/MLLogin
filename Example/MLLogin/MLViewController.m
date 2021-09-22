@@ -59,7 +59,6 @@
     
     MLLoginConfig *a = [[MLLoginConfig alloc] init];
 //    a.needAutoLogin = YES;
-    a.showBind = YES;
     a.gooleClientID = @"748197369663-mtcr8e00arei2bogdnofsoabdbsi86k2.apps.googleusercontent.com";
 
     MLoginSDK *vc = [[MLoginSDK alloc] initWithGame:@"SK-APP-001" encryptKey:@"#MRT-@KK?8425$F1Q" config:a];

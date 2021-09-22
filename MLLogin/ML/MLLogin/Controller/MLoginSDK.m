@@ -126,13 +126,12 @@
 }
 
 - (void)layoutUI {
-    BOOL showBind = self.loginConfig.showBind;
     CGFloat margint = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? (MLScreenWidthL * 0.5 - 177):30;
     CGFloat width = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? 354:(MLScreenWidthL - margint * 2);
     _loginView = [[MLLoginView alloc] initWithFrame:CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350)];
     _loginView.accountTF.text = [MLUserManger share].account;
     _loginView.passwordTF.text = [MLUserManger share].password;
-    _loginView.hidden = showBind;
+    _loginView.hidden = NO;
     [self.view addSubview:_loginView];
     
     _registerVew = [[MLRegisterVew alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
@@ -144,7 +143,7 @@
     [self.view addSubview:_forgetPasswordView];
     
     _bindNotifyView = [[MLBindNotifyView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
-    _bindNotifyView.hidden = !showBind;
+    _bindNotifyView.hidden = YES;
     [self.view addSubview:_bindNotifyView];
     
     _bindView = [[MLBindView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
@@ -195,7 +194,7 @@
                 strongSelf->_registerVew.hidden = NO;
                 break;
             case 5:   /// 游客登陆
-                [strongSelf.accountPresenter visitorRequest];
+                strongSelf->_bindNotifyView.hidden = NO;
                 break;
             case 6:   /// feackbook
                 [strongSelf.accountPresenter facebookLogin:nil];
@@ -279,7 +278,7 @@
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         switch (clickType) {
             case 1:  /// 返回
-                [strongSelf dismissViewControllerAnimated:YES completion:nil];
+                strongSelf->_bindNotifyView.hidden = YES;
                 break;
             case 2:  /// 游客登陆
                 [strongSelf.accountPresenter visitorRequest];
