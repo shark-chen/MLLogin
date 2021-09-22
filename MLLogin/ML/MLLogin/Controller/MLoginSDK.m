@@ -370,6 +370,9 @@
     if ([self.delegate respondsToSelector:@selector(callBackApiUrl:status:result:error:)]) {
         [self.delegate callBackApiUrl:apiUrlType status:status result:result error:error];
     }
+    if ([status isEqualToString:MLErrorValue] && result) {
+        [MLProgressHUD showText:result[@"status_code"]];
+    }
     switch (apiUrlType) {
         case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: case MLApple: case MLGoole: {
             if ([status isEqualToString:MLSuccessValue]) {
