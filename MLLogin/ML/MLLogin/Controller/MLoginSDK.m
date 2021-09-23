@@ -176,13 +176,7 @@
             {
                 NSString *account = strongSelf->_loginView.accountTF.text,
                 *password = strongSelf->_loginView.passwordTF.text;
-                if (account.length && password.length) {
-                    [strongSelf.accountPresenter loginRequestWithAccount:account password:password parameter:nil];
-                } else if (!account.length){
-                    [MLProgressHUD showText: @"The account cannot be empty"];
-                } else {
-                    [MLProgressHUD showText: @"The password cannot be empty"];
-                }
+                [strongSelf.accountPresenter loginRequestWithAccount:account password:password parameter:nil];
             }
                 break;
             case 2:   /// 记住密码
@@ -231,16 +225,11 @@
                         *password = strongSelf->_registerVew.passwordTF.text,
                         *rePassword = strongSelf->_registerVew.rePasswordTF.text,
                         *email = strongSelf->_registerVew.emailTF.text;
-                if (account.length && password.length
-                    && [password isEqualToString:rePassword]) {
-                    [strongSelf.accountPresenter registerRequestWithAccount:account password:password parameter:@{@"email":email?:@""}];
-                } else if (!account.length){
-                    [MLProgressHUD showText: @"The account cannot be empty"];
-                } else if (!password.length){
-                    [MLProgressHUD showText: @"The password cannot be empty"];
-                } else if (![password isEqualToString:rePassword]){
-                    [MLProgressHUD showText: @"The passwords are inconsistent"];
-                }
+                    if (![password isEqualToString:rePassword]){
+                        [MLProgressHUD showText: @"Password does not match."];
+                    } else {
+                        [strongSelf.accountPresenter registerRequestWithAccount:account password:password parameter:@{@"email":email?:@""}];
+                    }
             }
                 break;
             default:
@@ -258,11 +247,7 @@
             case 2:  /// 发送
             {
                 NSString *email = strongSelf->_forgetPasswordView.emailTF.text;
-                if (email.length) {
-                    [strongSelf.accountPresenter forgetPasswordRequestWithEmail:[MLUserManger share].account parameter:nil];
-                } else {
-                    [MLProgressHUD showText: @"The email cannot be empty"];
-                }
+                [strongSelf.accountPresenter forgetPasswordRequestWithEmail:email parameter:nil];
             }
                 break;
             default:
@@ -290,6 +275,7 @@
                 break;
         }
     };
+    
     _bindView.clickBlock = ^(NSInteger clickType) {
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         switch (clickType) {
@@ -301,15 +287,10 @@
                 NSString *account = strongSelf->_bindView.accountTF.text,
                         *password = strongSelf->_bindView.passwordTF.text,
                         *rePassword = strongSelf->_bindView.rePasswordTF.text;
-                if (account.length && password.length
-                    && [password isEqualToString:rePassword]) {
+                if (![password isEqualToString:rePassword]){
+                    [MLProgressHUD showText: @"Password does not match."];
+                } else {
                     [strongSelf.accountPresenter bindRequestWithAccount:account password:password gameId:[MLUserManger share].gusetGameId parameter:nil];
-                } else if (!account.length){
-                    [MLProgressHUD showText: @"The account cannot be empty"];
-                } else if (!password.length){
-                    [MLProgressHUD showText: @"The password cannot be empty"];
-                } else if (![password isEqualToString:rePassword]){
-                    [MLProgressHUD showText: @"The passwords are inconsistent"];
                 }
             }
                 break;
@@ -376,7 +357,6 @@
     switch (apiUrlType) {
         case MLLogin: case MLGuestLogin: case MLRegister: case MLFacebook: case MLApple: case MLGoole: {
             if ([status isEqualToString:MLSuccessValue]) {
-                [MLProgressHUD showText:@"login scuess"];
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         }

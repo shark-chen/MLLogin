@@ -35,7 +35,7 @@
     [self.loginButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
     
     _infoLabel = [[UILabel alloc] init];
-    _infoLabel.text = @"Please key in your registered email nand press SENO. \nYou will received on email to \nrecover you password.";
+    _infoLabel.text = @"Please enter your registered email and press SEND. You will receive an email to recover your password.";
     _infoLabel.font = [UIFont boldSystemFontOfSize:14];
     _infoLabel.numberOfLines = 0;
     _infoLabel.textColor = [UIColor colorWithHex:0xFFFFFF alpha:1];

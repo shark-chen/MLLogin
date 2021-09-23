@@ -43,7 +43,7 @@
 
 /// 游客
 - (void)visitorRequest {
-    [MLProgressHUD showLoadingText:@"logining"];
+    [MLProgressHUD showLoading];
     MLVisitorApi *visitorApi = [[MLVisitorApi alloc] init];
     [visitorApi startWithCompletionBlockWithSuccess:^(MLBaseRequest *request) {
         [MLProgressHUD hide];
@@ -57,7 +57,7 @@
 - (void)loginRequestWithAccount:(NSString *)account
                        password:(NSString * __nullable)password
                       parameter:(NSDictionary * __nullable)parameter {
-    [MLProgressHUD showLoadingText:@"logining"];
+    [MLProgressHUD showLoading];
     MLLoginApi *loginApi = [[MLLoginApi alloc] initWithAccount:account password:password parameter:parameter];
     [loginApi startWithCompletionBlockWithSuccess:^(MLBaseRequest *request) {
         // 你可以直接在这里使用 self
@@ -90,7 +90,7 @@
 - (void)registerRequestWithAccount:(NSString *)account
                           password:(NSString *)password
                          parameter:(NSDictionary * __nullable)parameter {
-    [MLProgressHUD showLoadingText:@"registering"];
+    [MLProgressHUD showLoading];
     MLRegisterApi *api = [[MLRegisterApi alloc] initWithAccount:account password:password parameter: parameter];
     [api startWithCompletionBlockWithSuccess:^(MLBaseRequest *request) {
         [MLProgressHUD hide];
@@ -107,7 +107,7 @@
                    password:(NSString *)password
                      gameId:(NSString *)gameId
                   parameter:(NSDictionary * __nullable)parameter {
-    [MLProgressHUD showLoadingText:@"binding"];
+    [MLProgressHUD showLoading];
     MLBindApi *api = [[MLBindApi alloc] initWithAccount:account password:password gameId:gameId parameter:parameter];
     [api startWithCompletionBlockWithSuccess:^(MLBaseRequest *request) {
         [MLProgressHUD hide];
@@ -122,7 +122,7 @@
 
 - (void)forgetPasswordRequestWithEmail:(NSString *)email
                              parameter:(NSDictionary * __nullable)parameter {
-    [MLProgressHUD showLoadingText:@"sending"];
+    [MLProgressHUD showLoading];
     MLForgetPasswordApi *api = [[MLForgetPasswordApi alloc] initWithEmail:email parameter:parameter];
     [api startWithCompletionBlockWithSuccess:^(MLBaseRequest *request) {
         [MLProgressHUD hide];

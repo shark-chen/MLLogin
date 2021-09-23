@@ -20,6 +20,7 @@
 
 + (instancetype)showLoading {
     MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
+    [hud hideAnimated:YES afterDelay:4.0f];
     return hud;
 }
 
@@ -27,7 +28,7 @@
     MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
     hud.mode = MLProgressHUDModeText;
     hud.label.text = NSLocalizedString(text, @"HUD loading title");
-    [hud hideAnimated:YES afterDelay:1.5f];
+    [hud hideAnimated:YES afterDelay:3.0f];
     return hud;
 }
 
