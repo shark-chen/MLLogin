@@ -14,6 +14,7 @@
     MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
     hud.mode = MLProgressHUDModeDeterminate;
     hud.label.text = NSLocalizedString(text, @"HUD loading title");
+    hud.label.numberOfLines = 0;
     [hud hideAnimated:YES afterDelay:3.0f];
     return hud;
 }
@@ -28,6 +29,7 @@
     MLProgressHUD *hud = [MLProgressHUD showHUDAddedTo:MLKeyWindow animated:YES];
     hud.mode = MLProgressHUDModeText;
     hud.label.text = NSLocalizedString(text, @"HUD loading title");
+    hud.label.numberOfLines = 0;
     [hud hideAnimated:YES afterDelay:3.0f];
     return hud;
 }

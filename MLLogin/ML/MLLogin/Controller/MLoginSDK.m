@@ -286,11 +286,12 @@
             {
                 NSString *account = strongSelf->_bindView.accountTF.text,
                         *password = strongSelf->_bindView.passwordTF.text,
-                        *rePassword = strongSelf->_bindView.rePasswordTF.text;
+                        *rePassword = strongSelf->_bindView.rePasswordTF.text,
+                        *email = strongSelf->_bindView.emailTF.text;
                 if (![password isEqualToString:rePassword]){
                     [MLProgressHUD showText: @"Password does not match."];
                 } else {
-                    [strongSelf.accountPresenter bindRequestWithAccount:account password:password gameId:[MLUserManger share].gusetGameId parameter:nil];
+                    [strongSelf.accountPresenter bindRequestWithAccount:account password:password gameId:[MLUserManger share].gusetGameId parameter:@{@"email":email?:@""}];
                 }
             }
                 break;

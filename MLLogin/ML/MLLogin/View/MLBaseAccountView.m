@@ -41,7 +41,7 @@
 }
 
 - (void)endEdit {
-    [self endEditing:YES];
+    [self.superview endEditing:YES];
 }
 
 #pragma mark - lazyUI
