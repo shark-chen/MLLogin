@@ -203,10 +203,10 @@
     };
     
     if (@available(iOS 13.0, *)) {
-        _loginView.appleBlock = ^(ASAuthorization *authorization, NSString *user, NSError *err) {
+        _loginView.appleBlock = ^(ASAuthorization *authorization, NSString *user, NSString *email, NSError *err) {
             __strong __typeof__(weakSelf) strongSelf = weakSelf;
             if (user.length) {
-                [strongSelf.accountPresenter appleLoginWithAccount:user];
+                [strongSelf.accountPresenter appleLoginWithAccount:user parameter:@{@"platform":MLAppleLogin, @"email": email?:@""}];
             } else {
                 [strongSelf callBackApiUrl:MLApple status:MLErrorValue result:@{@"status":MLErrorValue} error:err];
             }
@@ -314,7 +314,9 @@
         if (error) {
             [strongSelf callBackApiUrl:MLGoole status:MLErrorValue result:@{@"status":MLErrorValue} error:error];
         } else {
-            [strongSelf.accountPresenter gooleLoginWithAccount: user.userID parameter:@{@"platform":@"goole"}];
+            [strongSelf.accountPresenter gooleLoginWithAccount: user.userID
+                                                     parameter:@{@"platform":MLGooleLogin,@"email":user.profile.email
+                                                                                        ?:@""}];
         }
     }];
 }

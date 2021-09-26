@@ -141,8 +141,9 @@
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         if (result) {
             NSString *userID = [NSString stringWithFormat:@"%@", result[@"userID"]];
+            NSString *email = [NSString stringWithFormat:@"%@", result[@"email"]];
             if (userID.length) {
-                [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":MLFaceBookLogin}];
+                [strongSelf loginRequestWithAccount:userID password:nil parameter:@{@"platform":MLFaceBookLogin,@"email":email?:@""}];
                 return;
             }
         }
@@ -152,8 +153,8 @@
 
 /// 苹果 三方登陆
 /// @param account 苹果userid
-- (void)appleLoginWithAccount:(NSString *)account {
-    [self loginRequestWithAccount:account password:nil parameter:@{@"platform":MLAppleLogin}];
+- (void)appleLoginWithAccount:(NSString *)account parameter:(NSDictionary * __nullable)parameter {
+    [self loginRequestWithAccount:account password:nil parameter:parameter];
 }
 
 - (void)gooleLoginWithAccount:(NSString *)account

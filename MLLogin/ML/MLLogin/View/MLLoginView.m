@@ -86,12 +86,12 @@
     
     if (@available(iOS 13.0, *)) {
         __weak __typeof__(self) weakSelf = self;
-        _appleButton = [MLAppleLoginView createAppleButtonWithsuccess:^(ASAuthorization * _Nonnull authorization, NSString * _Nonnull user) {
+        _appleButton = [MLAppleLoginView createAppleButtonWithsuccess:^(ASAuthorization * _Nonnull authorization, NSString * _Nonnull user, NSString * _Nonnull email) {
             NSLog(@"授权成功");
-            !weakSelf.appleBlock?:weakSelf.appleBlock(authorization, user, nil);
+            !weakSelf.appleBlock?:weakSelf.appleBlock(authorization, user, email, nil);
         } failure:^(NSError * _Nonnull err) {
             NSLog(@"授权失败");
-            !weakSelf.appleBlock?:weakSelf.appleBlock(nil, nil, err);
+            !weakSelf.appleBlock?:weakSelf.appleBlock(nil, nil, nil ,err);
         }];
         [_appleButton setBackgroundImage:[self imageNamed:@"apple_icon"] forState:UIControlStateNormal];
         [self addSubview:_appleButton];

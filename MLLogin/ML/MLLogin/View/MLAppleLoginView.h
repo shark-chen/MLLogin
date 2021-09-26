@@ -14,7 +14,7 @@ API_AVAILABLE(ios(13.0))
 @interface MLAppleLoginView : NSObject
 + (MLAppleLoginView *)defaultSignInWithAppleModel;
 + (void)attempDealloc;
-+ (UIButton *)createAppleButtonWithsuccess:(void(^)(ASAuthorization *authorization,NSString *user))success
++ (UIButton *)createAppleButtonWithsuccess:(void(^)(ASAuthorization *authorization,NSString *user, NSString *email))success
                                    failure:(void (^)(NSError *err))failure;
 @end
 

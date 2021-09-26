@@ -68,7 +68,7 @@ static NSString *MLErrorValue = @"error";
 
 /// 苹果 三方登陆
 /// @param account 苹果userid
-- (void)appleLoginWithAccount:(NSString *)account;
+- (void)appleLoginWithAccount:(NSString *)account parameter:(NSDictionary * __nullable)parameter;
 
 /// 谷歌 三方登陆
 /// @param account 谷歌userid

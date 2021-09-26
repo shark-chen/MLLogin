@@ -14,7 +14,7 @@ static MLAppleLoginView  *_instance;
 static dispatch_once_t onceToken;
 
 API_AVAILABLE(ios(13.0))
-typedef void(^Success)(ASAuthorization *authorization,NSString *user);
+typedef void(^Success)(ASAuthorization *authorization,NSString *user, NSString *email);
 typedef void (^Failure)(NSError *err);
 
 @interface MLAppleLoginView()<ASAuthorizationControllerDelegate,ASAuthorizationControllerPresentationContextProviding>
@@ -36,7 +36,7 @@ typedef void (^Failure)(NSError *err);
     _instance = nil;
 }
 
-+ (UIButton *)createAppleButtonWithsuccess:(void(^)(ASAuthorization *authorization,NSString *user))success
++ (UIButton *)createAppleButtonWithsuccess:(void(^)(ASAuthorization *authorization, NSString *user, NSString *email))success
                                    failure:(void (^)(NSError *err))failure {
     if (@available(iOS 13.0, *)) {
         MLAppleLoginView *hsiam = [MLAppleLoginView defaultSignInWithAppleModel];
@@ -51,11 +51,6 @@ typedef void (^Failure)(NSError *err);
 // 处理授权
 - (void)handleAuthorizationAppleIDButtonPress{
     if (@available(iOS 13.0, *)) {
-        if ([MLUserManger share].appleUserId.length) {
-            self.success(nil, [MLUserManger share].appleUserId);
-            return;
-        }
-
         // 基于用户的Apple ID授权用户，生成用户授权请求的一种机制
         ASAuthorizationAppleIDProvider *appleIDProvider = [[ASAuthorizationAppleIDProvider alloc] init];
         // 创建新的AppleID 授权请求
@@ -93,7 +88,7 @@ typedef void (^Failure)(NSError *err);
 //        NSData *authorizationCode = appleIDCredential.authorizationCode;
         //  需要使用钥匙串的方式保存用户的唯一信息
 //        [NCHandleKeychain save:KEYCHAIN_IDENTIFIER(@"SignInWithApple") data:user];
-        self.success(authorization, user);
+        self.success(authorization, user, appleIDCredential.email);
     }else if ([authorization.credential isKindOfClass:[ASPasswordCredential class]]){
         // Sign in using an existing iCloud Keychain credential.
         // 用户登录使用现有的密码凭证
@@ -101,7 +96,7 @@ typedef void (^Failure)(NSError *err);
         // 密码凭证对象的用户标识 用户的唯一标识
         NSString *user = passwordCredential.user;
         [MLUserManger share].appleUserId = user;
-        self.success(authorization, user);
+        self.success(authorization, user, @"");
     }else{
         NSLog(@"授权信息均不符");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey: @"授权信息均不符"};
