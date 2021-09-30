@@ -32,7 +32,7 @@
     [self addSubview:self.logoImg];
     
     _infoLabel = [[UILabel alloc] init];
-    _infoLabel.text = [NSString stringWithFormat:@"Guest ID:%@", [MLUserManger share].gusetGameId];
+    _infoLabel.text = [NSString stringWithFormat:@"Guest ID:%@", [MLUserManger share].gusetGameId?:@""];
     _infoLabel.font = [UIFont boldSystemFontOfSize:13];
     _infoLabel.textColor = [UIColor colorWithHex:0xFFFFFF alpha:1];
     [self addSubview:_infoLabel];
