@@ -1,31 +1,37 @@
 //
-//  MLForgotPasswordApi.m
+//  MLBindApi.m
 //  GameProject
 //
-//  Created by shark on 2021/9/8.
+//  Created by shark on 2021/9/1.
 //
 
-#import "MLForgetPasswordApi.h"
+#import "MLBindApi.h"
 #import "MLUserManger.h"
-#import "NSString+ML.h"
+#import "Header.h"
 
-@implementation MLForgetPasswordApi {
-    NSString *_email;
+@implementation MLBindApi{
+    NSString *_account;
+    NSString *_password;
+    NSString *_gameId;
     NSDictionary *_parameter;
 }
 
-- (id)initWithEmail:(NSString *)email
-          parameter:(NSDictionary * __nullable)parameter {
+- (id)initWithAccount:(NSString *)account
+             password:(NSString *)password
+               gameId:(NSString *)gameId
+            parameter:(NSDictionary * __nullable)parameter {
   self = [super init];
   if (self) {
-      _email = email;
+      _account = account;
+      _password = password;
+      _gameId = gameId;
       _parameter = parameter;
   }
   return self;
 }
 
 - (NSString *)requestUrl {
-    return @"/handle/forgot_password";
+    return @"/handle/bind";
 }
 
 - (MLRequestMethod)requestMethod {
@@ -34,9 +40,9 @@
 
 - (id)requestArgument {
     NSMutableDictionary *parameter = [[NSMutableDictionary alloc] initWithDictionary:[MLParameter publicParametersDic]];
-    [parameter removeObjectForKey:@"uuid"];
-    [parameter removeObjectForKey:@"game"];
-    parameter[@"email"] = _email ?:@"";
+    parameter[@"account"] = _account ?:@"";
+    parameter[@"password"] = _password ?:@"";
+    parameter[@"game_id"] = _gameId ?:@"";
     [parameter addEntriesFromDictionary:_parameter];
     parameter[@"token"] = [self token: parameter];
     return parameter;
@@ -44,7 +50,7 @@
 
 - (NSString *)token:(NSDictionary *)parameter {
     NSString *result = @"";
-    NSArray *md5Arr = @[@"email", @"time"];
+    NSArray *md5Arr = @[@"uuid", @"game_id", @"account", @"password", @"game", @"time"];
     for (NSString *str in md5Arr) {
         if (parameter[str]) {
             result = [NSString stringWithFormat:@"%@%@",result,parameter[str]];

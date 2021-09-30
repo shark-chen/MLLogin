@@ -9,8 +9,9 @@
 Pod::Spec.new do |s|
   s.name             = 'MLLogin'
   s.version          = '1.0.1'
-  s.summary          = 'A short description of MLLogin.'
+  s.summary          = 'login SDK to game.'
   s.static_framework = true
+  s.swift_version    = '5.0.0'
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
 #   * Try to keep it short, snappy and to the point.
@@ -39,30 +40,28 @@ TODO: Add long description of the pod here.
       'OTHER_LDFLAGS' => ['$(inherited)','-ObjC'],
   }
   
-  s.subspec 'Common' do |s|
-    s.source_files = 'MLLogin/ML/Common/**/*.{h,m,xib}'
-    s.resources    = 'MLLogin/ML/Common/**/*.{bundle}'
+  s.subspec 'MLLogin' do |sp|
+    sp.source_files = 'MLLogin/MLLogin/**/*.{h,m,xib}'
+    sp.dependency 'MLLogin/Tool'
+    sp.dependency 'MLLogin/MLNetwork'
   end
   
-  s.subspec 'MLLogin' do |s|
-    s.source_files = 'MLLogin/ML/MLLogin/**/*.{h,m,xib}'
-    s.resources    = 'MLLogin/ML/MLLogin/**/*.{bundle}'
+  s.subspec 'MLNetwork' do |sp|
+    sp.public_header_files = 'MLLogin/MLNetwork/*.h'
+    sp.source_files = 'MLLogin/MLNetwork/**/*.{h,m,xib}'
   end
   
-  s.subspec 'MLNetwork' do |s|
-    s.source_files = 'MLLogin/ML/MLNetwork/**/*.{h,m,xib}'
-    s.resources    = 'MLLogin/ML/MLNetwork/**/*.{bundle}'
+  s.subspec 'Tool' do |sp|
+    sp.public_header_files = 'MLLogin/Tool/**/*.h'
+    sp.source_files = 'MLLogin/Tool/**/*.{h,m,xib}'
   end
   
-  s.subspec 'Tool' do |s|
-    s.source_files = 'MLLogin/ML/Tool/**/*.{h,m,xib}'
-    s.resources    = 'MLLogin/ML/Tool/**/*.{bundle}'
-  end
-  
-  s.subspec 'Resouces' do |s|
-    s.resources    = 'MLLogin/Resouces/*.{bundle}'
+  s.subspec 'Resouces' do |sp|
+    sp.resources    = 'MLLogin/Resouces/*.{bundle}'
   end
 
+  s.frameworks =  "Foundation","UIKit"
+  
   # s.public_header_files = 'Pod/Classes/**/*.h'
    s.dependency 'FBSDKLoginKit'
    s.dependency 'GoogleSignIn'

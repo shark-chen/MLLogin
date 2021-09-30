@@ -1,44 +1,42 @@
 //
-//  MLLoginApi.m
+//  MLRegisterApi.m
 //  GameProject
 //
 //  Created by shark on 2021/9/1.
 //
 
-#import "MLLoginApi.h"
+#import "MLRegisterApi.h"
 #import "MLUserManger.h"
-#import "NSString+ML.h"
+#import "Header.h"
 
-@implementation MLLoginApi {
+@implementation MLRegisterApi{
     NSString *_account;
     NSString *_password;
     NSDictionary *_parameter;
 }
 
-- (id)initWithAccount:(NSString *)account password:(NSString * __nullable)password parameter:(NSDictionary * __nullable)parameter {
-  self = [super init];
-  if (self) {
-      _account = account;
-      _password = password;
-      _parameter = parameter;
-  }
-  return self;
+- (id)initWithAccount:(NSString *)account password:(NSString *)password parameter:(NSDictionary * __nullable)parameter {
+    self = [super init];
+    if (self) {
+        _account = account;
+        _password = password;
+        _parameter = parameter;
+    }
+    return self;
 }
 
 - (NSString *)requestUrl {
-  return @"/handle/login";
+    return @"/handle/register";
 }
 
 - (MLRequestMethod)requestMethod {
-  return MLRequestMethodGET;
+    return MLRequestMethodGET;
 }
 
 - (id)requestArgument {
     NSMutableDictionary *parameter = [[NSMutableDictionary alloc] initWithDictionary:[MLParameter publicParametersDic]];
     parameter[@"account"] = _account ?:@"";
-    if (_password) {
-        parameter[@"password"] = _password;
-    }
+    parameter[@"password"] = _password ?:@"";
     [parameter addEntriesFromDictionary:_parameter];
     parameter[@"token"] = [self token: parameter];
     return parameter;

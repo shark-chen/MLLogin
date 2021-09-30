@@ -11,9 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (ML)
 
-/// 所在控制器
-@property (nonatomic,weak,readonly) UIViewController* viewController;
-
 /// 宽
 @property (nonatomic,assign) CGFloat width;
 

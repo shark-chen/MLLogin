@@ -6,6 +6,8 @@
 //
 
 #import "MLAccountPresenter.h"
+#import "MLNetApi.h"
+#import "MLUserManger.h"
 #import "Header.h"
 
 @implementation MLAccountPresenter

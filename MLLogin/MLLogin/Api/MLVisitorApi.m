@@ -7,7 +7,7 @@
 
 #import "MLVisitorApi.h"
 #import "MLUserManger.h"
-#import "NSString+ML.h"
+#import "Header.h"
 
 @implementation MLVisitorApi{
     NSDictionary *_parameter;

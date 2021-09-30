@@ -1,32 +1,31 @@
 //
-//  MLRegisterApi.m
+//  MLForgotPasswordApi.m
 //  GameProject
 //
-//  Created by shark on 2021/9/1.
+//  Created by shark on 2021/9/8.
 //
 
-#import "MLRegisterApi.h"
+#import "MLForgetPasswordApi.h"
 #import "MLUserManger.h"
-#import "NSString+ML.h"
+#import "Header.h"
 
-@implementation MLRegisterApi{
-    NSString *_account;
-    NSString *_password;
+@implementation MLForgetPasswordApi {
+    NSString *_email;
     NSDictionary *_parameter;
 }
 
-- (id)initWithAccount:(NSString *)account password:(NSString *)password parameter:(NSDictionary * __nullable)parameter {
-    self = [super init];
-    if (self) {
-        _account = account;
-        _password = password;
-        _parameter = parameter;
-    }
-    return self;
+- (id)initWithEmail:(NSString *)email
+          parameter:(NSDictionary * __nullable)parameter {
+  self = [super init];
+  if (self) {
+      _email = email;
+      _parameter = parameter;
+  }
+  return self;
 }
 
 - (NSString *)requestUrl {
-    return @"/handle/register";
+    return @"/handle/forgot_password";
 }
 
 - (MLRequestMethod)requestMethod {
@@ -35,8 +34,9 @@
 
 - (id)requestArgument {
     NSMutableDictionary *parameter = [[NSMutableDictionary alloc] initWithDictionary:[MLParameter publicParametersDic]];
-    parameter[@"account"] = _account ?:@"";
-    parameter[@"password"] = _password ?:@"";
+    [parameter removeObjectForKey:@"uuid"];
+    [parameter removeObjectForKey:@"game"];
+    parameter[@"email"] = _email ?:@"";
     [parameter addEntriesFromDictionary:_parameter];
     parameter[@"token"] = [self token: parameter];
     return parameter;
@@ -44,7 +44,7 @@
 
 - (NSString *)token:(NSDictionary *)parameter {
     NSString *result = @"";
-    NSArray *md5Arr = @[@"uuid", @"account", @"password", @"game", @"time"];
+    NSArray *md5Arr = @[@"email", @"time"];
     for (NSString *str in md5Arr) {
         if (parameter[str]) {
             result = [NSString stringWithFormat:@"%@%@",result,parameter[str]];

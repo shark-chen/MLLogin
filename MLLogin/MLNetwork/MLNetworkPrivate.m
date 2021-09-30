@@ -23,12 +23,7 @@
 
 #import <CommonCrypto/CommonDigest.h>
 #import "MLNetworkPrivate.h"
-
-#if __has_include(<MLNetworking/MLHTTPRequestSerializer.h>)
-#import "MLHTTPRequestSerializer.h"
-#else
 #import "MLURLRequestSerialization.h"
-#endif
 
 void MLLog(NSString *format, ...) {
 #ifdef DEBUG
