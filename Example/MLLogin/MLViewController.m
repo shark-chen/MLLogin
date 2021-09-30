@@ -33,6 +33,7 @@
     _lb.textAlignment = NSTextAlignmentCenter;
     _lb.backgroundColor = [UIColor yellowColor];
     [self.view addSubview:_lb];
+     
     
     [self adddNotification];
 
