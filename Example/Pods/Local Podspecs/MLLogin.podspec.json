@@ -46,7 +46,7 @@
   "subspecs": [
     {
       "name": "MLLogin",
-      "source_files": "MLLogin/MLLogin/**/*.{h,m,xib}",
+      "source_files": "MLLogin/Classes/MLLogin/**/*",
       "dependencies": {
         "MLLogin/Tool": [
 
@@ -58,13 +58,13 @@
     },
     {
       "name": "MLNetwork",
-      "public_header_files": "MLLogin/MLNetwork/*.h",
-      "source_files": "MLLogin/MLNetwork/**/*.{h,m,xib}"
+      "public_header_files": "MLLogin/Classes/MLNetwork/*.h",
+      "source_files": "MLLogin/Classes/MLNetwork/**/*"
     },
     {
       "name": "Tool",
-      "public_header_files": "MLLogin/Tool/**/*.h",
-      "source_files": "MLLogin/Tool/**/*.{h,m,xib}"
+      "public_header_files": "MLLogin/Classes/Tool/**/*.h",
+      "source_files": "MLLogin/Classes/Tool/**/*"
     },
     {
       "name": "Resouces",

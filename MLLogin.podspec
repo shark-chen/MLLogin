@@ -41,19 +41,19 @@ TODO: Add long description of the pod here.
   }
   
   s.subspec 'MLLogin' do |sp|
-    sp.source_files = 'MLLogin/MLLogin/**/*.{h,m,xib}'
+    sp.source_files = 'MLLogin/Classes/MLLogin/**/*'
     sp.dependency 'MLLogin/Tool'
     sp.dependency 'MLLogin/MLNetwork'
   end
   
   s.subspec 'MLNetwork' do |sp|
-    sp.public_header_files = 'MLLogin/MLNetwork/*.h'
-    sp.source_files = 'MLLogin/MLNetwork/**/*.{h,m,xib}'
+    sp.public_header_files = 'MLLogin/Classes/MLNetwork/*.h'
+    sp.source_files = 'MLLogin/Classes/MLNetwork/**/*'
   end
   
   s.subspec 'Tool' do |sp|
-    sp.public_header_files = 'MLLogin/Tool/**/*.h'
-    sp.source_files = 'MLLogin/Tool/**/*.{h,m,xib}'
+    sp.public_header_files = 'MLLogin/Classes/Tool/**/*.h'
+    sp.source_files = 'MLLogin/Classes/Tool/**/*'
   end
   
   s.subspec 'Resouces' do |sp|
