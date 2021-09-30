@@ -56,6 +56,20 @@
     }];
 }
 
+/// 游客
+- (void)requestVisitorID {
+    if ([MLUserManger share].gusetGameId.length) return;
+    [MLProgressHUD showLoading];
+    MLVisitorApi *visitorApi = [[MLVisitorApi alloc] init];
+    [visitorApi startWithCompletionBlockWithSuccess:^(MLBaseRequest *request) {
+        [MLProgressHUD hide];
+        [self handleDelegateApiUrl:MLGuestLoginID result:request.responseJSONObject?:request.responseObject error:request.error];
+    } failure:^(MLBaseRequest *request) {
+        [MLProgressHUD hide];
+        [self handleDelegateApiUrl:MLGuestLoginID result:request.responseJSONObject?:request.responseObject error:request.error];
+    }];
+}
+
 - (void)loginRequestWithAccount:(NSString *)account
                        password:(NSString * __nullable)password
                       parameter:(NSDictionary * __nullable)parameter {
@@ -180,7 +194,7 @@
             
         }
             break;
-        case MLGuestLogin: {
+        case MLGuestLogin: case MLGuestLoginID: {
             if ([resullt isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *result = (NSDictionary *)resullt;
                 if ([result[MLStatusKey] isEqualToString:MLSuccessValue]) {

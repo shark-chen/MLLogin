@@ -188,6 +188,7 @@
                 strongSelf->_registerVew.hidden = NO;
                 break;
             case 5:   /// 游客登陆
+                [strongSelf.accountPresenter requestVisitorID];
                 strongSelf->_bindNotifyView.hidden = NO;
                 break;
             case 6:   /// feackbook
@@ -351,6 +352,7 @@
 
 /// 请求回调
 - (void)callBackApiUrl:(MLApiUrlType)apiUrlType status:(NSString *)status result:(id)result error:(NSError *)error {
+    if (apiUrlType == MLGuestLoginID) return;
     if ([self.delegate respondsToSelector:@selector(callBackApiUrl:status:result:error:)]) {
         [self.delegate callBackApiUrl:apiUrlType status:status result:result error:error];
     }

@@ -34,6 +34,8 @@ static NSString *MLAppleLogin = @"apple";
 @property (assign, nonatomic) BOOL isRemember;   /// 是否记住密码
 @property (strong, nonatomic) NSString *platform;
 
+@property (copy, nonatomic) void(^gusetGameIdChange)(NSString *gusetGameId);
+
 + (instancetype)share;
 
 - (void)clearAccout;

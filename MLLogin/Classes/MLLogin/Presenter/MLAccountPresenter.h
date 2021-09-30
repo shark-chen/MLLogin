@@ -27,6 +27,8 @@ static NSString *MLErrorValue = @"error";
 
 /// 游客
 - (void)visitorRequest;
+/// 游客
+- (void)requestVisitorID;
 
 /// 登陆
 /// @param account  账号

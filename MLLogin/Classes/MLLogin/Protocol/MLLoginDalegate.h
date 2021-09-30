@@ -11,6 +11,7 @@ typedef enum : NSInteger {
     MLLogin = 1,        /// 登陆
     MLAutoLogin,        /// 自动登陆
     MLGuestLogin,       /// 游客
+    MLGuestLoginID,     /// 获取游客ID
     MLRegister,         /// 注册
     MLBind,             /// 绑定
     MLForgetPassword,   /// 忘记密码

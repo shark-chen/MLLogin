@@ -38,7 +38,7 @@ static NSString *MLPlatformID = @"ML_GAME_PLATFORMID";
         instance.account = [MLKeychain load: MLAccountKey];
         instance.password = [MLKeychain load: MLPasswordKey];
         instance.gameId = [MLKeychain load: MLGameId];
-        instance.gusetGameId = [MLKeychain load: MLGusetGameId];
+        instance.gusetGameId = [[NSUserDefaults standardUserDefaults] stringForKey:MLGusetGameId]; //[MLKeychain load: MLGusetGameId];
         instance.appleUserId = [MLKeychain load: MLAppleUserID];
         instance.isRemember = [[NSUserDefaults standardUserDefaults] boolForKey:MLIsRemember];
     });
@@ -65,8 +65,10 @@ static NSString *MLPlatformID = @"ML_GAME_PLATFORMID";
 
 - (void)setGusetGameId:(NSString *)gusetGameId {
     _gusetGameId = gusetGameId;
-    if (!self.isRemember) return;
-    [MLKeychain save:MLGusetGameId data:gusetGameId];
+    !_gusetGameIdChange?:_gusetGameIdChange(gusetGameId);
+    [[NSUserDefaults standardUserDefaults] setObject:gusetGameId forKey:MLGusetGameId];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [MLKeychain save:MLGusetGameId data:gusetGameId];
 }
 
 - (void)setAppleUserId:(NSString *)appleUserId {
