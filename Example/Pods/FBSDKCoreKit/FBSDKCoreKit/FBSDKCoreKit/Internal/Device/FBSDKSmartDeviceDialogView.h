@@ -20,13 +20,20 @@
 
 #if TARGET_OS_TV
 
-#import <UIKit/UIKit.h>
+ #import <UIKit/UIKit.h>
 
-#import "FBSDKDeviceDialogView.h"
+ #if SWIFT_PACKAGE
+  #import "FBSDKDeviceDialogView.h"
+ #else
+  #import <FBSDKCoreKit/FBSDKDeviceDialogView.h>
+ #endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(FBSmartDeviceDialogView)
 @interface FBSDKSmartDeviceDialogView : FBSDKDeviceDialogView
-
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

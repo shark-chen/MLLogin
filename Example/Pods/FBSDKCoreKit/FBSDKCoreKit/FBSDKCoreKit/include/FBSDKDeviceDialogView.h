@@ -20,20 +20,34 @@
 
 #if TARGET_OS_TV
 
-#import "FBSDKButton.h"
+#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NS_SWIFT_NAME(DeviceDialogViewDelegate)
+@protocol FBSDKDeviceDialogViewDelegate;
 
-/*
-  An internal base class for device related flows.
+/**
+ Internal Type exposed to facilitate transition to Swift.
+ API Subject to change or removal without warning. Do not use.
 
- This is an internal API that should not be used directly and is subject to change.
+ @warning UNSAFE - DO NOT USE
  */
-NS_SWIFT_NAME(FBDeviceButton)
-@interface FBSDKDeviceButton : FBSDKButton
+
+NS_SWIFT_NAME(FBDeviceDialogView)
+@interface FBSDKDeviceDialogView : UIView
+
+@property (nonatomic, weak) id<FBSDKDeviceDialogViewDelegate> delegate;
+@property (nonatomic, copy) NSString *confirmationCode;
+
+// override point for subclasses.
+- (void)buildView;
 
 @end
 
-NS_ASSUME_NONNULL_END
+NS_SWIFT_NAME(DeviceDialogViewDelegate)
+@protocol FBSDKDeviceDialogViewDelegate <NSObject>
+
+- (void)deviceDialogViewDidCancel:(FBSDKDeviceDialogView *)deviceDialogView;
+
+@end
 
 #endif

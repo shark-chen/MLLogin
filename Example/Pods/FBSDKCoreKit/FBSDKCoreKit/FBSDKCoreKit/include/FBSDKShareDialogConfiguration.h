@@ -16,5 +16,32 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#define FBSDK_VERSION_STRING @"11.1.0"
-#define FBSDK_TARGET_PLATFORM_VERSION @"v11.0"
+#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+/// Constant used to describe the 'Like' dialog
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameLike;
+/// Constant used to describe the 'Message' dialog
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameMessage;
+/// Constant used to describe the 'Share' dialog
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameShare;
+
+@protocol FBSDKServerConfigurationProviding;
+
+/**
+ A lightweight interface to expose aspects of FBSDKServerConfiguration that are used by dialogs in ShareKit.
+
+ Internal Use Only
+ */
+NS_SWIFT_NAME(ShareDialogConfiguration)
+@interface FBSDKShareDialogConfiguration : NSObject
+
+@property (nonatomic, copy, readonly) NSString *defaultShareMode;
+
+- (BOOL)shouldUseNativeDialogForDialogName:(NSString *)dialogName;
+- (BOOL)shouldUseSafariViewControllerForDialogName:(NSString *)dialogName;
+
+@end
+
+NS_ASSUME_NONNULL_END

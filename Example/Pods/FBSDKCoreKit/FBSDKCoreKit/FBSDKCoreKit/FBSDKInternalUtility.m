@@ -24,6 +24,7 @@
 #import "FBSDKCoreKit+Internal.h"
 #import "FBSDKCoreKitBasicsImport.h"
 #import "FBSDKError+Internal.h"
+#import "FBSDKInternalUtilityProtocol.h"
 #import "FBSDKSettings.h"
 #import "FBSDKSettings+Internal.h"
 
@@ -48,6 +49,9 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift) {
 
 @end
 
+#if FBSDK_SWIFT_PACKAGE
+NS_EXTENSION_UNAVAILABLE("The Facebook iOS SDK is not currently supported in extensions")
+#endif
 @implementation FBSDKInternalUtility
 
 static Class<FBSDKLogging> _loggerType;
@@ -686,7 +690,7 @@ static NSMapTable *_transientObjects;
 #pragma mark - Testability
 
 #if DEBUG
- #if FBSDKTEST
+ #if FBTEST
 
 + (void)reset
 {

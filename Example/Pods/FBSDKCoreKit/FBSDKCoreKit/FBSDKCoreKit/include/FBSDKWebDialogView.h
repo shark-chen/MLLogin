@@ -16,18 +16,42 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import <UIKit/UIKit.h>
 
-#import "FBSDKImpressionTrackingButton.h"
+@protocol FBSDKWebDialogViewDelegate;
+@protocol FBSDKWebViewProviding;
+@protocol FBSDKInternalURLOpener;
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
-  A base class for common SDK buttons.
- */
-NS_SWIFT_NAME(FBButton)
-@interface FBSDKButton : FBSDKImpressionTrackingButton
+NS_SWIFT_NAME(FBWebDialogView)
+@interface FBSDKWebDialogView : UIView
+
+@property (nonatomic, weak) id<FBSDKWebDialogViewDelegate> delegate;
+
++ (void)configureWithWebViewProvider:(id<FBSDKWebViewProviding>)provider
+                           urlOpener:(id<FBSDKInternalURLOpener>)urlOpener;
+
+- (void)loadURL:(NSURL *)URL;
+- (void)stopLoading;
+
+@end
+
+NS_SWIFT_NAME(WebDialogViewDelegate)
+@protocol FBSDKWebDialogViewDelegate <NSObject>
+
+- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didCompleteWithResults:(NSDictionary *)results;
+- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didFailWithError:(NSError *)error;
+- (void)webDialogViewDidCancel:(FBSDKWebDialogView *)webDialogView;
+- (void)webDialogViewDidFinishLoad:(FBSDKWebDialogView *)webDialogView;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
+

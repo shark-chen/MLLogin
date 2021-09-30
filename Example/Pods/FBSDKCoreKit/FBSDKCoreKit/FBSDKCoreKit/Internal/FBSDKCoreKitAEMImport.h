@@ -25,6 +25,7 @@
  #else
   #import <FBAEMKit/FBAEMNetworking.h>
   #import <FBAEMKit/FBAEMReporter.h>
+  #import <FBAEMKit/FBSKAdNetworkReporting.h>
  #endif
 
 #endif

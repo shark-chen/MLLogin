@@ -16,42 +16,42 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
+#import <UIKit/UIKit.h>
 
-#if !TARGET_OS_TV
-
-#import <Foundation/Foundation.h>
-
-#import "FBSDKBridgeAPIRequest.h"
+#import "FBSDKImpressionTrackingButton.h"
+@class FBSDKIcon;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Internal Type exposed to facilitate transition to Swift.
+  A base class for common SDK buttons.
+ */
+NS_SWIFT_NAME(FBButton)
+@interface FBSDKButton : FBSDKImpressionTrackingButton
+
+@property (nonatomic, readonly, getter = isImplicitlyDisabled) BOOL implicitlyDisabled;
+
+- (void)checkImplicitlyDisabled;
+- (void)configureWithIcon:(nullable FBSDKIcon *)icon
+                    title:(nullable NSString *)title
+          backgroundColor:(nullable UIColor *)backgroundColor
+         highlightedColor:(nullable UIColor *)highlightedColor;
+
+/** 
+ Internal method exposed to facilitate transition to Swift.
  API Subject to change or removal without warning. Do not use.
 
  @warning UNSAFE - DO NOT USE
  */
-NS_SWIFT_NAME(BridgeAPIResponse)
-@interface FBSDKBridgeAPIResponse : NSObject <NSCopying, NSObject>
-
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
-
-+ (instancetype)bridgeAPIResponseWithRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request error:(NSError *)error;
-+ (nullable instancetype)bridgeAPIResponseWithRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request
-                                 responseURL:(NSURL *)responseURL
-                           sourceApplication:(nullable NSString *)sourceApplication
-                                       error:(NSError *__autoreleasing *)errorRef;
-+ (instancetype)bridgeAPIResponseCancelledWithRequest:(NSObject<FBSDKBridgeAPIRequestProtocol> *)request;
-
-@property (nonatomic, assign, readonly, getter=isCancelled) BOOL cancelled;
-@property (nullable, nonatomic, copy, readonly) NSError *error;
-@property (nonatomic, copy, readonly) NSObject<FBSDKBridgeAPIRequestProtocol> *request;
-@property (nullable, nonatomic, copy, readonly) NSDictionary *responseParameters;
-
+- (void) configureWithIcon:(nullable FBSDKIcon *)icon
+                     title:(nullable NSString *)title
+           backgroundColor:(nullable UIColor *)backgroundColor
+          highlightedColor:(nullable UIColor *)highlightedColor
+             selectedTitle:(nullable NSString *)selectedTitle
+              selectedIcon:(nullable FBSDKIcon *)selectedIcon
+             selectedColor:(nullable UIColor *)selectedColor
+  selectedHighlightedColor:(nullable UIColor *)selectedHighlightedColor;
+- (UIColor *)defaultBackgroundColor;
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

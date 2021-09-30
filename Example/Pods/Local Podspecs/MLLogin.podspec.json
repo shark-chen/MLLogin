@@ -1,6 +1,6 @@
 {
   "name": "MLLogin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "summary": "login SDK to game.",
   "static_framework": true,
   "swift_versions": "5.0.0",
@@ -15,7 +15,7 @@
   },
   "source": {
     "git": "https://github.com/shark-chen/MLLogin.git",
-    "tag": "1.0.1"
+    "tag": "1.0.2"
   },
   "platforms": {
     "ios": "9.0"

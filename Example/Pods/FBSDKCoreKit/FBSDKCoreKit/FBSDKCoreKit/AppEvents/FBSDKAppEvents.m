@@ -274,7 +274,7 @@ static NSString *g_overrideAppID = nil;
 static BOOL g_explicitEventsLoggedYet;
 static Class<FBSDKGateKeeperManaging> g_gateKeeperManager;
 static Class<FBSDKAppEventsConfigurationProviding> g_appEventsConfigurationProvider;
-static Class<FBSDKServerConfigurationProviding> g_serverConfigurationProvider;
+static id<FBSDKServerConfigurationProviding> g_serverConfigurationProvider;
 static id<FBSDKGraphRequestProviding> g_graphRequestProvider;
 static id<FBSDKFeatureChecking> g_featureChecker;
 static Class<FBSDKLogging> g_logger;
@@ -310,6 +310,9 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
 
 @end
 
+#if FBSDK_SWIFT_PACKAGE
+NS_EXTENSION_UNAVAILABLE("The Facebook iOS SDK is not currently supported in extensions")
+#endif
 @implementation FBSDKAppEvents
 {
   FBSDKServerConfiguration *_serverConfiguration;
@@ -886,7 +889,7 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
 
 - (void)   configureWithGateKeeperManager:(Class<FBSDKGateKeeperManaging>)gateKeeperManager
            appEventsConfigurationProvider:(Class<FBSDKAppEventsConfigurationProviding>)appEventsConfigurationProvider
-              serverConfigurationProvider:(Class<FBSDKServerConfigurationProviding>)serverConfigurationProvider
+              serverConfigurationProvider:(id<FBSDKServerConfigurationProviding>)serverConfigurationProvider
                      graphRequestProvider:(id<FBSDKGraphRequestProviding>)provider
                            featureChecker:(id<FBSDKFeatureChecking>)featureChecker
                                     store:(id<FBSDKDataPersisting>)store
@@ -947,7 +950,7 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
   }
 }
 
-+ (void)setServerConfigurationProvider:(Class<FBSDKServerConfigurationProviding>)provider
++ (void)setServerConfigurationProvider:(id<FBSDKServerConfigurationProviding>)provider
 {
   if (g_serverConfigurationProvider != provider) {
     g_serverConfigurationProvider = provider;
@@ -1145,7 +1148,7 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
       [self flushOnMainQueue:copy forReason:flushReason];
     };
 
-  #if DEBUG && FBSDKTEST
+  #if DEBUG && FBTEST
     block();
   #else
     dispatch_async(dispatch_get_main_queue(), block);
@@ -1219,7 +1222,7 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
 
   self.atePublisher = self.atePublisher ?: [self.atePublisherFactory createPublisherWithAppID:self.appID];
 
-#if FBSDKTEST
+#if FBTEST
   [self.atePublisher publishATE];
 #else
   __weak FBSDKAppEvents *weakSelf = self;
@@ -1756,7 +1759,7 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
 
 #pragma mark - Testability
 
-#if DEBUG && FBSDKTEST
+#if DEBUG && FBTEST
 
 + (void)reset
 {
@@ -1786,7 +1789,7 @@ static id<FBSDKAppEventsParameterProcessing, FBSDKEventsProcessing> g_restrictiv
   return g_graphRequestProvider;
 }
 
-+ (Class<FBSDKServerConfigurationProviding>)serverConfigurationProvider
++ (id<FBSDKServerConfigurationProviding>)serverConfigurationProvider
 {
   return g_serverConfigurationProvider;
 }

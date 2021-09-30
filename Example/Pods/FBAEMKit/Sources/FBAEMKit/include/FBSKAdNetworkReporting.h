@@ -18,30 +18,21 @@
 
 #import "TargetConditionals.h"
 
-#if TARGET_OS_TV
+#if !TARGET_OS_TV
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-NS_SWIFT_NAME(DeviceDialogViewDelegate)
-@protocol FBSDKDeviceDialogViewDelegate;
+NS_ASSUME_NONNULL_BEGIN
 
-// internal class, APIs are subject to change.
-NS_SWIFT_NAME(FBDeviceDialogView)
-@interface FBSDKDeviceDialogView : UIView
+NS_SWIFT_NAME(SKAdNetworkReporting)
+@protocol FBSKAdNetworkReporting
 
-@property (nonatomic, weak) id<FBSDKDeviceDialogViewDelegate> delegate;
-@property (nonatomic, copy) NSString *confirmationCode;
+- (BOOL)shouldCutoff;
 
-// override point for subclasses.
-- (void)buildView;
+- (BOOL)isReportingEvent:(NSString *)event;
 
 @end
 
-NS_SWIFT_NAME(DeviceDialogViewDelegate)
-@protocol FBSDKDeviceDialogViewDelegate <NSObject>
-
-- (void)deviceDialogViewDidCancel:(FBSDKDeviceDialogView *)deviceDialogView;
-
-@end
+NS_ASSUME_NONNULL_END
 
 #endif

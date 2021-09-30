@@ -43,6 +43,9 @@ static FBSDKWebDialog *g_currentDialog = nil;
 @interface FBSDKWebDialog () <FBSDKWebDialogViewDelegate>
 @end
 
+ #if FBSDK_SWIFT_PACKAGE
+NS_EXTENSION_UNAVAILABLE("The Facebook iOS SDK is not currently supported in extensions")
+ #endif
 @implementation FBSDKWebDialog
 {
   UIView *_backgroundView;
@@ -237,12 +240,12 @@ static FBSDKWebDialog *g_currentDialog = nil;
 - (void)_failWithError:(NSError *)error
 {
   // defer so that the consumer is guaranteed to have an opportunity to set the delegate before we fail
-#ifndef FBSDKTEST
+#ifndef FBTEST
   dispatch_async(dispatch_get_main_queue(), ^{
 #endif
   [self _dismissAnimated:YES];
   [self->_delegate webDialog:self didFailWithError:error];
-#ifndef FBSDKTEST
+#ifndef FBTEST
 });
 #endif
 }

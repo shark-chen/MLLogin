@@ -37,7 +37,6 @@
   #import "FBSDKViewImpressionTracker.h"
  #else
   #import "FBSDKDeviceButton+Internal.h"
-  #import "FBSDKDeviceDialogView.h"
   #import "FBSDKDeviceViewControllerBase+Internal.h"
   #import "FBSDKModalFormPresentationController.h"
   #import "FBSDKSmartDeviceDialogView.h"
@@ -54,9 +53,7 @@
  #import "FBSDKGraphRequestFactory.h"
  #import "FBSDKGraphRequestMetadata.h"
  #import "FBSDKGraphRequestPiggybackManager.h"
- #import "FBSDKIcon.h"
  #import "FBSDKImageDownloader.h"
- #import "FBSDKInternalUtility+WindowFinding.h"
  #import "FBSDKKeychainStore.h"
  #import "FBSDKLogger.h"
  #import "FBSDKLogger+Logging.h"
@@ -90,7 +87,6 @@
   #import "UI/FBSDKViewImpressionTracker.h"
  #else
   #import "Device/FBSDKDeviceButton+Internal.h"
-  #import "Device/FBSDKDeviceDialogView.h"
   #import "Device/FBSDKDeviceViewControllerBase+Internal.h"
   #import "Device/FBSDKModalFormPresentationController.h"
   #import "Device/FBSDKSmartDeviceDialogView.h"
@@ -100,8 +96,6 @@
  #import "ErrorRecovery/FBSDKErrorRecoveryAttempter.h"
  #import "FBSDKDynamicFrameworkLoader.h"
  #import "FBSDKImageDownloader.h"
- #import "FBSDKInternalUtility+WindowFinding.h"
- #import "FBSDKLogger.h"
  #import "FBSDKLogger+Logging.h"
  #import "FBSDKLogging.h"
  #import "FBSDKMath.h"
@@ -114,7 +108,6 @@
  #import "Network/FBSDKGraphRequest+Internal.h"
  #import "Network/FBSDKGraphRequestBody.h"
  #import "Network/FBSDKGraphRequestConnection+Internal.h"
- #import "Network/FBSDKGraphRequestFactory.h"
  #import "Network/FBSDKGraphRequestMetadata.h"
  #import "Network/FBSDKGraphRequestPiggybackManager.h"
  #import "ServerConfiguration/FBSDKDialogConfiguration.h"
@@ -126,7 +119,6 @@
  #import "TokenCaching/FBSDKKeychainStore.h"
  #import "TokenCaching/FBSDKTokenCache.h"
  #import "UI/FBSDKButton+Subclass.h"
- #import "UI/FBSDKIcon.h"
  #import "UI/FBSDKLogo.h"
 
 #endif

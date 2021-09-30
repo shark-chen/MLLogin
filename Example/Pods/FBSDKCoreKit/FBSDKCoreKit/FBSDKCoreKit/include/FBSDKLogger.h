@@ -16,23 +16,31 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
+#import <Foundation/Foundation.h>
 
-#if TARGET_OS_TV
-
-#import <UIKit/UIKit.h>
+#import "FBSDKLoggingBehavior.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
-  An internal base class for device related flows.
+/**
 
- This is an internal API that should not be used directly and is subject to change.
-*/
-NS_SWIFT_NAME(FBDeviceViewControllerBase)
-@interface FBSDKDeviceViewControllerBase : UIViewController
+ Simple logging utility for conditionally logging strings and then emitting them
+ via NSLog().
+
+ @unsorted
+
+ Internal Type exposed to facilitate transition to Swift.
+ API Subject to change or removal without warning. Do not use.
+
+ @warning UNSAFE - DO NOT USE
+ */
+NS_SWIFT_NAME(Logger)
+@interface FBSDKLogger : NSObject
+
+// Simple helper to write a single log entry, based upon whether the behavior matches a specified on.
++ (void)singleShotLogEntry:(FBSDKLoggingBehavior)loggingBehavior
+                  logEntry:(NSString *)logEntry;
+
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

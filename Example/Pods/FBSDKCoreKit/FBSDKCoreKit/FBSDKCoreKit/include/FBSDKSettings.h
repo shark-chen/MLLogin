@@ -19,14 +19,20 @@
 #import <UIKit/UIKit.h>
 
 #import "FBSDKLoggingBehavior.h"
+#import "FBSDKSettingsProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Settings)
-@interface FBSDKSettings : NSObject
+@interface FBSDKSettings : NSObject<FBSDKSettings>
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
+/**
+ The shared settings instance. Prefer this and the exposed instance methods over the class variants.
+ */
+@property (class, nonatomic, readonly) FBSDKSettings *sharedSettings;
 
 /**
  Retrieve the current iOS SDK version.
@@ -148,11 +154,11 @@ NS_SWIFT_NAME(jpegCompressionQuality);
 @property (class, nonatomic, copy) NSSet<FBSDKLoggingBehavior> *loggingBehaviors;
 
 /**
-  Overrides the default Graph API version to use with `FBSDKGraphRequests`. This overrides `FBSDK_TARGET_PLATFORM_VERSION`.
+  Overrides the default Graph API version to use with `FBSDKGraphRequests`. This overrides `FBSDK_DEFAULT_GRAPH_API_VERSION`.
 
  The string should be of the form `@"v2.7"`.
 
- Defaults to `FBSDK_TARGET_PLATFORM_VERSION`.
+ Defaults to `FBSDK_DEFAULT_GRAPH_API_VERSION`.
 */
 @property (class, nonatomic, copy, null_resettable) NSString *graphAPIVersion;
 
@@ -164,7 +170,7 @@ NS_SWIFT_NAME(jpegCompressionQuality);
 
 /**
 Set the advertiser_tracking_enabled flag. It only works in iOS14 and above.
- 
+
 @param advertiserTrackingEnabled the value of the flag
 @return Whether the the value is set successfully. It will always return NO in iOS 13 and below.
  */

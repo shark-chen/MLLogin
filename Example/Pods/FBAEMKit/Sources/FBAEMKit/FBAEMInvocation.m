@@ -33,6 +33,7 @@ static NSString *const ACS_TOKEN_KEY = @"acs_token";
 static NSString *const ACS_SHARED_SECRET_KEY = @"shared_secret";
 static NSString *const ACS_CONFIG_ID_KEY = @"acs_config_id";
 static NSString *const BUSINESS_ID_KEY = @"advertiser_id";
+static NSString *const TEST_DEEPLINK_KEY = @"test_deeplink";
 static NSString *const TIMESTAMP_KEY = @"timestamp";
 static NSString *const CONFIG_MODE_KEY = @"config_mode";
 static NSString *const CONFIG_ID_KEY = @"config_id";
@@ -42,6 +43,9 @@ static NSString *const CONVERSION_VALUE_KEY = @"conversion_value";
 static NSString *const PRIORITY_KEY = @"priority";
 static NSString *const CONVERSION_TIMESTAMP_KEY = @"conversion_timestamp";
 static NSString *const IS_AGGREGATED_KEY = @"is_aggregated";
+static NSString *const HAS_SKAN_KEY = @"has_skan";
+
+static NSString *const FB_CONTENT = @"fb_content";
 
 typedef NSString *const FBAEMInvocationConfigMode;
 
@@ -63,6 +67,8 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
     NSString *ACSSharedSecret = [FBSDKTypeUtility dictionary:applinkData objectForKey:ACS_SHARED_SECRET_KEY ofType:NSString.class];
     NSString *ACSConfigID = [FBSDKTypeUtility dictionary:applinkData objectForKey:CONFIG_ID_KEY ofType:NSString.class];
     NSString *businessID = [FBSDKTypeUtility dictionary:applinkData objectForKey:BUSINESS_ID_KEY ofType:NSString.class];
+    NSNumber *isTestMode = [FBSDKTypeUtility dictionary:applinkData objectForKey:TEST_DEEPLINK_KEY ofType:NSNumber.class] ?: @NO;
+    NSNumber *hasSKAN = [FBSDKTypeUtility dictionary:applinkData objectForKey:HAS_SKAN_KEY ofType:NSNumber.class] ?: @NO;
     if (campaignID == nil || ACSToken == nil) {
       return nil;
     }
@@ -70,7 +76,9 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
                                               ACSToken:ACSToken
                                        ACSSharedSecret:ACSSharedSecret
                                            ACSConfigID:ACSConfigID
-                                            businessID:businessID];
+                                            businessID:businessID
+                                            isTestMode:isTestMode.boolValue
+                                               hasSKAN:hasSKAN.boolValue];
   } @catch (NSException *exception) {
     return nil;
   }
@@ -81,6 +89,8 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
                             ACSSharedSecret:(nullable NSString *)ACSSharedSecret
                                 ACSConfigID:(nullable NSString *)ACSConfigID
                                  businessID:(nullable NSString *)businessID
+                                 isTestMode:(BOOL)isTestMode
+                                    hasSKAN:(BOOL)hasSKAN
 {
   return [self initWithCampaignID:campaignID
                          ACSToken:ACSToken
@@ -95,7 +105,9 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
                   conversionValue:-1
                          priority:-1
               conversionTimestamp:nil
-                     isAggregated:YES];
+                     isAggregated:YES
+                       isTestMode:isTestMode
+                          hasSKAN:hasSKAN];
 }
 
 - (nullable instancetype)initWithCampaignID:(NSString *)campaignID
@@ -112,6 +124,8 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
                                    priority:(NSInteger)priority
                         conversionTimestamp:(nullable NSDate *)conversionTimestamp
                                isAggregated:(BOOL)isAggregated
+                                 isTestMode:(BOOL)isTestMode
+                                    hasSKAN:(BOOL)hasSKAN
 {
   if ((self = [super init])) {
     _campaignID = campaignID;
@@ -140,6 +154,8 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
     _priority = priority;
     _conversionTimestamp = conversionTimestamp;
     _isAggregated = isAggregated;
+    _isTestMode = isTestMode;
+    _hasSKAN = hasSKAN;
   }
   return self;
 }
@@ -155,7 +171,7 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
     return NO;
   }
   // Check advertiser rule matching
-  if (config.matchingRule && ![config.matchingRule isMatchedEventParameters:parameters]) {
+  if (config.matchingRule && ![config.matchingRule isMatchedEventParameters:[self processedParameters:parameters]]) {
     return NO;
   }
   BOOL isAttributed = NO;
@@ -250,6 +266,27 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
   return decodedData;
 }
 
+- (nullable NSDictionary<NSString *, id> *)processedParameters:(nullable NSDictionary<NSString *, id> *)parameters
+{
+  if (!parameters) {
+    return parameters;
+  }
+  @try {
+    NSMutableDictionary<NSString *, id> *result = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    NSString *content = [FBSDKTypeUtility dictionary:result objectForKey:FB_CONTENT ofType:NSString.class];
+    if (content) {
+      [FBSDKTypeUtility dictionary:result
+                         setObject:[FBSDKTypeUtility JSONObjectWithData:[content dataUsingEncoding:NSUTF8StringEncoding]
+                                                                options:0
+                                                                  error:nil]
+                            forKey:FB_CONTENT];
+    }
+    return [result copy];
+  } @catch (NSException *exception) {
+    return parameters;
+  }
+}
+
 - (BOOL)_isOutOfWindowWithConfig:(nullable FBAEMConfiguration *)config
 {
   if (!config) {
@@ -319,6 +356,7 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
   NSInteger priority = [decoder decodeIntegerForKey:PRIORITY_KEY];
   NSDate *conversionTimestamp = [decoder decodeObjectOfClass:NSDate.class forKey:CONVERSION_TIMESTAMP_KEY];
   BOOL isAggregated = [decoder decodeBoolForKey:IS_AGGREGATED_KEY];
+  BOOL hasSKAN = [decoder decodeBoolForKey:HAS_SKAN_KEY];
   return [self initWithCampaignID:campaignID
                          ACSToken:ACSToken
                   ACSSharedSecret:ACSSharedSecret
@@ -332,7 +370,9 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
                   conversionValue:conversionValue
                          priority:priority
               conversionTimestamp:conversionTimestamp
-                     isAggregated:isAggregated];
+                     isAggregated:isAggregated
+                       isTestMode:NO
+                          hasSKAN:hasSKAN];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -351,6 +391,7 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
   [encoder encodeInteger:_priority forKey:PRIORITY_KEY];
   [encoder encodeObject:_conversionTimestamp forKey:CONVERSION_TIMESTAMP_KEY];
   [encoder encodeBool:_isAggregated forKey:IS_AGGREGATED_KEY];
+  [encoder encodeBool:_hasSKAN forKey:HAS_SKAN_KEY];
 }
 
  #pragma mark - NSCopying
@@ -361,7 +402,7 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
 }
 
  #if DEBUG
-  #if FBAEMTEST
+  #if FBTEST
 
 - (void)setRecordedEvents:(NSMutableSet<NSString *> *)recordedEvents
 {
@@ -425,6 +466,7 @@ FBAEMInvocationConfigMode FBAEMInvocationConfigBrandMode = @"BRAND";
   _priority = -1;
   _conversionTimestamp = [NSDate date];
   _isAggregated = YES;
+  _hasSKAN = NO;
 }
 
   #endif

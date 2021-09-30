@@ -27,6 +27,7 @@
 #import "FBAEMKit.h"
 #import "FBAEMNetworking.h"
 #import "FBAEMReporter.h"
+#import "FBSKAdNetworkReporting.h"
 
 FOUNDATION_EXPORT double FBAEMKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FBAEMKitVersionString[];

@@ -30,7 +30,7 @@
 #import "FBSDKGraphRequestMetadata.h"
 #import "FBSDKGraphRequestPiggybackManagerProvider.h"
 #import "FBSDKInternalUtility+Internal.h"
-#import "FBSDKLogger.h"
+#import "FBSDKLogger+Internal.h"
 #import "FBSDKOperatingSystemVersionComparing.h"
 #import "FBSDKSettingsProtocol.h"
 #import "FBSDKURLSession+URLSessionProxying.h"
@@ -887,7 +887,8 @@ static BOOL _canMakeRequests = NO;
     BOOL isRecoveryDisabled = [metadata.request isGraphErrorRecoveryDisabled];
     if (resultError && !isRecoveryDisabled && isSingleRequestToRecover) {
       self->_recoveringRequestMetadata = metadata;
-      self->_errorRecoveryProcessor = [FBSDKGraphErrorRecoveryProcessor new];
+      self->_errorRecoveryProcessor = [[FBSDKGraphErrorRecoveryProcessor alloc]
+                                       initWithAccessTokenString:FBSDKAccessToken.currentAccessToken.tokenString];
       if ([self->_errorRecoveryProcessor processError:resultError request:metadata.request delegate:self]) {
         return;
       }
@@ -1307,7 +1308,7 @@ static BOOL _canMakeRequests = NO;
 // MARK: - Testability
 
 #if DEBUG
- #if FBSDKTEST
+ #if FBTEST
 
 /// Resets the default connection timeout to 60 seconds
 + (void)resetDefaultConnectionTimeout

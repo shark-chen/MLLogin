@@ -43,14 +43,15 @@ typedef void (^FBSDKSKAdNetworkReporterBlock)(void);
 
 static NSString *const FBSDKSKAdNetworkConversionConfigurationKey = @"com.facebook.sdk:FBSDKSKAdNetworkConversionConfiguration";
 static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKAdNetworkReporter";
+static char *const serialQueueLabel = "com.facebook.appevents.SKAdNetwork.FBSDKSKAdNetworkReporter";
 
 @interface FBSDKSKAdNetworkReporter ()
 
-@property BOOL isSKAdNetworkReportEnabled;
+@property (nonatomic) BOOL isSKAdNetworkReportEnabled;
 @property (nonnull, nonatomic) NSMutableArray<FBSDKSKAdNetworkReporterBlock> *completionBlocks;
-@property BOOL isRequestStarted;
+@property (nonatomic) BOOL isRequestStarted;
 @property (nonnull, nonatomic) dispatch_queue_t serialQueue;
-@property (nonnull, nonatomic) FBSDKSKAdNetworkConversionConfiguration *config;
+@property (nullable, nonatomic) FBSDKSKAdNetworkConversionConfiguration *config;
 @property (nonnull, nonatomic) NSDate *configRefreshTimestamp;
 @property (nonatomic) NSInteger conversionValue;
 @property (nonatomic) NSDate *timestamp;
@@ -82,7 +83,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
       [SKAdNetwork registerAppForAdNetworkAttribution];
       [self _loadReportData];
       self.completionBlocks = [NSMutableArray new];
-      self.serialQueue = dispatch_queue_create("com.facebook.appevents.SKAdNetwork.FBSDKSKAdNetworkReporter", DISPATCH_QUEUE_SERIAL);
+      self.serialQueue = dispatch_queue_create(serialQueueLabel, DISPATCH_QUEUE_SERIAL);
       [self _loadConfigurationWithBlock:^{
         [self _checkAndUpdateConversionValue];
         [self _checkAndRevokeTimer];
@@ -136,16 +137,16 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
   }
   // Executes block if there is cache
   if ([self _isConfigRefreshTimestampValid] && [self.store objectForKey:FBSDKSKAdNetworkConversionConfigurationKey]) {
-    dispatch_async(self.serialQueue, ^() {
+    [self dispatchOnQueue:self.serialQueue block:^() {
       [FBSDKTypeUtility array:self.completionBlocks addObject:block];
       for (FBSDKSKAdNetworkReporterBlock executionBlock in self.completionBlocks) {
         executionBlock();
       }
       [self.completionBlocks removeAllObjects];
-    });
+    }];
     return;
   }
-  dispatch_async(self.serialQueue, ^{
+  [self dispatchOnQueue:self.serialQueue block:^{
     [FBSDKTypeUtility array:self.completionBlocks addObject:block];
     if (self.isRequestStarted) {
       return;
@@ -153,7 +154,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
     self.isRequestStarted = YES;
     id<FBSDKGraphRequest> request = [self.requestProvider createGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/ios_skadnetwork_conversion_config", [FBSDKSettings appID]]];
     [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
-      dispatch_async(self.serialQueue, ^{
+      [self dispatchOnQueue:self.serialQueue block:^{
         if (error) {
           self.isRequestStarted = NO;
           return;
@@ -169,9 +170,9 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
           [self.completionBlocks removeAllObjects];
           self.isRequestStarted = NO;
         }
-      });
+      }];
     }];
-  });
+  }];
 }
 
 - (void)_checkAndRevokeTimer
@@ -179,7 +180,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
   if (!self.config) {
     return;
   }
-  if ([self _shouldCutoff]) {
+  if ([self shouldCutoff]) {
     return;
   }
   if (self.conversionValue > self.config.timerBuckets) {
@@ -198,7 +199,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
   if (!self.config) {
     return;
   }
-  if ([self _shouldCutoff]) {
+  if ([self shouldCutoff]) {
     return;
   }
   if (![self.config.eventSet containsObject:event] && ![FBSDKAppEventsUtility isStandardEvent:event]) {
@@ -244,7 +245,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
 - (void)_updateConversionValue:(NSInteger)value
 {
   if (@available(iOS 14.0, *)) {
-    if ([self _shouldCutoff]) {
+    if ([self shouldCutoff]) {
       return;
     }
     [self.conversionValueUpdatable updateConversionValue:value];
@@ -254,13 +255,18 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
   }
 }
 
-- (BOOL)_shouldCutoff
+- (BOOL)shouldCutoff
 {
   if (!self.config.cutoffTime) {
     return true;
   }
   NSDate *installTimestamp = [self.store objectForKey:@"com.facebook.sdk:FBSDKSettingsInstallTimestamp"];
   return [installTimestamp isKindOfClass:NSDate.class] && [[NSDate date] timeIntervalSinceDate:installTimestamp] > self.config.cutoffTime * 86400;
+}
+
+- (BOOL)isReportingEvent:(NSString *)event
+{
+  return (self.config && [self.config.eventSet containsObject:event]);
 }
 
  #pragma clang diagnostic push
@@ -280,6 +286,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
                                                                            @[NSString.class,
                                                                              NSNumber.class,
                                                                              NSArray.class,
+                                                                             NSDate.class,
                                                                              NSDictionary.class,
                                                                              NSSet.class]]
                                                 fromData:cachedReportData
@@ -309,6 +316,17 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
   }
 }
 
+- (void)dispatchOnQueue:(dispatch_queue_t)queue block:(dispatch_block_t)block
+{
+  if (block != nil) {
+    if (strcmp(dispatch_queue_get_label(queue), serialQueueLabel) == 0) {
+      dispatch_async(queue, block);
+    } else {
+      block();
+    }
+  }
+}
+
  #pragma clang diagnostic pop
 
 - (BOOL)_isConfigRefreshTimestampValid
@@ -319,7 +337,7 @@ static NSString *const FBSDKSKAdNetworkReporterKey = @"com.facebook.sdk:FBSDKSKA
  #pragma mark - Testability
 
  #if DEBUG
-  #if FBSDKTEST
+  #if FBTEST
 
 - (void)setConfiguration:(FBSDKSKAdNetworkConversionConfiguration *)configuration
 {

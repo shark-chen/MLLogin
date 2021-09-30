@@ -17,7 +17,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "FBSDKApplicationDelegate.h"
-#import "FBSDKApplicationDelegate+Internal.h"
 
 #import <objc/runtime.h>
 
@@ -51,6 +50,7 @@
 #import "FBSDKFeatureManager+FeatureChecking.h"
 #import "FBSDKFeatureManager+FeatureDisabling.h"
 #import "FBSDKGateKeeperManager.h"
+#import "FBSDKGraphRequest.h"
 #import "FBSDKGraphRequestFactory.h"
 #import "FBSDKGraphRequestPiggybackManager+Internal.h"
 #import "FBSDKInstrumentManager.h"
@@ -64,12 +64,10 @@
 #import "FBSDKServerConfigurationManager+ServerConfigurationProviding.h"
 #import "FBSDKSettings+Internal.h"
 #import "FBSDKSettings+SettingsLogging.h"
-#import "FBSDKSettings+SettingsProtocols.h"
 #import "FBSDKSettingsLogging.h"
 #import "FBSDKSwizzler+Swizzling.h"
 #import "FBSDKTimeSpentRecordingFactory.h"
 #import "FBSDKTokenCache.h"
-#import "GraphAPI/FBSDKGraphRequest.h"
 #import "NSNotificationCenter+Extensions.h"
 #import "NSUserDefaults+FBSDKDataPersisting.h"
 
@@ -110,7 +108,7 @@ static UIApplicationState _applicationState;
 @property (nonnull, nonatomic, readonly) id<FBSDKNotificationObserving> notificationObserver;
 @property (nonnull, nonatomic, readonly) NSHashTable<id<FBSDKApplicationObserving>> *applicationObservers;
 @property (nonnull, nonatomic, readonly) id<FBSDKSourceApplicationTracking, FBSDKAppEventsConfiguring, FBSDKApplicationLifecycleObserving, FBSDKApplicationActivating, FBSDKApplicationStateSetting, FBSDKEventLogging> appEvents;
-@property (nonnull, nonatomic, readonly) Class<FBSDKServerConfigurationProviding> serverConfigurationProvider;
+@property (nonnull, nonatomic, readonly) id<FBSDKServerConfigurationProviding> serverConfigurationProvider;
 @property (nonnull, nonatomic, readonly) id<FBSDKDataPersisting> store;
 @property (nonnull, nonatomic, readonly) Class<FBSDKAuthenticationTokenProviding, FBSDKAuthenticationTokenSetting> authenticationTokenWallet;
 @property (nonnull, nonatomic, readonly) FBSDKAccessTokenExpirer *accessTokenExpirer;
@@ -125,6 +123,9 @@ static UIApplicationState _applicationState;
 
 @end
 
+#if FBSDK_SWIFT_PACKAGE
+NS_EXTENSION_UNAVAILABLE("The Facebook iOS SDK is not currently supported in extensions")
+#endif
 @implementation FBSDKApplicationDelegate
 
 #pragma mark - Class Methods
@@ -154,7 +155,7 @@ static UIApplicationState _applicationState;
                                  settings:FBSDKSettings.sharedSettings
                            featureChecker:FBSDKFeatureManager.shared
                                 appEvents:FBSDKAppEvents.singleton
-              serverConfigurationProvider:FBSDKServerConfigurationManager.class
+              serverConfigurationProvider:FBSDKServerConfigurationManager.shared
                                     store:NSUserDefaults.standardUserDefaults
                 authenticationTokenWallet:FBSDKAuthenticationToken.class];
 #else
@@ -165,7 +166,7 @@ static UIApplicationState _applicationState;
                                  settings:FBSDKSettings.sharedSettings
                            featureChecker:FBSDKFeatureManager.shared
                                 appEvents:FBSDKAppEvents.singleton
-              serverConfigurationProvider:FBSDKServerConfigurationManager.class
+              serverConfigurationProvider:FBSDKServerConfigurationManager.shared
                                     store:NSUserDefaults.standardUserDefaults
                 authenticationTokenWallet:FBSDKAuthenticationToken.class
                           profileProvider:FBSDKProfile.class
@@ -179,7 +180,7 @@ static UIApplicationState _applicationState;
                                   settings:(id<FBSDKSettingsLogging, FBSDKSettings>)settings
                             featureChecker:(id<FBSDKFeatureChecking>)featureChecker
                                  appEvents:(id<FBSDKSourceApplicationTracking, FBSDKAppEventsConfiguring, FBSDKApplicationLifecycleObserving, FBSDKApplicationActivating, FBSDKApplicationStateSetting, FBSDKEventLogging>)appEvents
-               serverConfigurationProvider:(Class<FBSDKServerConfigurationProviding>)serverConfigurationProvider
+               serverConfigurationProvider:(id<FBSDKServerConfigurationProviding>)serverConfigurationProvider
                                      store:(id<FBSDKDataPersisting>)store
                  authenticationTokenWallet:(Class<FBSDKAuthenticationTokenProviding, FBSDKAuthenticationTokenSetting>)authenticationTokenWallet
 {
@@ -204,7 +205,7 @@ static UIApplicationState _applicationState;
                                   settings:(id<FBSDKSettingsLogging, FBSDKSettings>)settings
                             featureChecker:(id<FBSDKFeatureChecking>)featureChecker
                                  appEvents:(id<FBSDKSourceApplicationTracking, FBSDKAppEventsConfiguring, FBSDKApplicationLifecycleObserving, FBSDKApplicationActivating, FBSDKApplicationStateSetting, FBSDKEventLogging>)appEvents
-               serverConfigurationProvider:(Class<FBSDKServerConfigurationProviding>)serverConfigurationProvider
+               serverConfigurationProvider:(id<FBSDKServerConfigurationProviding>)serverConfigurationProvider
                                      store:(id<FBSDKDataPersisting>)store
                  authenticationTokenWallet:(Class<FBSDKAuthenticationTokenProviding, FBSDKAuthenticationTokenSetting>)authenticationTokenWallet
                            profileProvider:(Class<FBSDKProfileProviding>)profileProvider
@@ -547,11 +548,6 @@ static UIApplicationState _applicationState;
   }
 }
 
-+ (UIApplicationState)applicationState
-{
-  return _applicationState;
-}
-
 - (void)setApplicationState:(UIApplicationState)state
 {
   _applicationState = state;
@@ -650,17 +646,13 @@ static UIApplicationState _applicationState;
 #endif
 }
 
-+ (BOOL)isSDKInitialized
-{
-  return hasInitializeBeenCalled;
-}
-
 - (void)configureDependencies
 {
   id<FBSDKGraphRequestProviding> graphRequestProvider = [FBSDKGraphRequestFactory new];
   id<FBSDKDataPersisting> store = NSUserDefaults.standardUserDefaults;
   id<FBSDKGraphRequestConnectionProviding> connectionProvider = [FBSDKGraphRequestConnectionFactory new];
   id<FBSDKSettings> sharedSettings = FBSDKSettings.sharedSettings;
+  id<FBSDKServerConfigurationProviding> serverConfigurationProvider = FBSDKServerConfigurationManager.shared;
 
   [FBSDKSettings configureWithStore:store
      appEventsConfigurationProvider:FBSDKAppEventsConfigurationManager.class
@@ -682,13 +674,13 @@ static UIApplicationState _applicationState;
                                                                                          settings:sharedSettings];
   FBSDKTimeSpentRecordingFactory *timeSpentRecordingFactory
     = [[FBSDKTimeSpentRecordingFactory alloc] initWithEventLogger:self.appEvents
-                                      serverConfigurationProvider:FBSDKServerConfigurationManager.class];
+                                      serverConfigurationProvider:serverConfigurationProvider];
   FBSDKEventDeactivationManager *eventDeactivationManager = [FBSDKEventDeactivationManager new];
-  FBSDKRestrictiveDataFilterManager *restrictiveDataFilterManager = [[FBSDKRestrictiveDataFilterManager alloc] initWithServerConfigurationProvider:FBSDKServerConfigurationManager.class];
+  FBSDKRestrictiveDataFilterManager *restrictiveDataFilterManager = [[FBSDKRestrictiveDataFilterManager alloc] initWithServerConfigurationProvider:serverConfigurationProvider];
   [FBSDKAppEventsState configureWithEventProcessors:@[eventDeactivationManager, restrictiveDataFilterManager]];
   [self.appEvents configureWithGateKeeperManager:FBSDKGateKeeperManager.class
                   appEventsConfigurationProvider:FBSDKAppEventsConfigurationManager.class
-                     serverConfigurationProvider:FBSDKServerConfigurationManager.class
+                     serverConfigurationProvider:serverConfigurationProvider
                             graphRequestProvider:graphRequestProvider
                                   featureChecker:self.featureChecker
                                            store:store
@@ -710,7 +702,7 @@ static UIApplicationState _applicationState;
                            graphRequestConnectionFactory:connectionProvider];
   [FBSDKGraphRequestPiggybackManager configureWithTokenWallet:FBSDKAccessToken.class
                                                      settings:sharedSettings
-                                          serverConfiguration:[FBSDKServerConfigurationManager class]
+                                          serverConfiguration:serverConfigurationProvider
                                               requestProvider:graphRequestProvider];
   [FBSDKButton setApplicationActivationNotifier:self];
   [FBSDKError configureWithErrorReporter:FBSDKErrorReport.shared];
@@ -725,7 +717,7 @@ static UIApplicationState _applicationState;
   [FBSDKAppLinkUtility configureWithRequestProvider:graphRequestProvider
                              infoDictionaryProvider:NSBundle.mainBundle];
   [FBSDKCodelessIndexer configureWithRequestProvider:graphRequestProvider
-                         serverConfigurationProvider:FBSDKServerConfigurationManager.class
+                         serverConfigurationProvider:serverConfigurationProvider
                                                store:store
                                   connectionProvider:connectionProvider
                                             swizzler:FBSDKSwizzler.class
@@ -741,7 +733,9 @@ static UIApplicationState _applicationState;
                                                                 conversionValueUpdatable:SKAdNetwork.class];
   }
   if (@available(iOS 14.0, *)) {
-    [FBAEMReporter configureWithNetworker:[FBSDKAEMNetworker new] appID:[FBSDKSettings appID]];
+    [FBAEMReporter configureWithNetworker:[FBSDKAEMNetworker new]
+                                    appID:[FBSDKSettings appID]
+                                 reporter:self.skAdNetworkReporter];
   }
   [FBSDKProfile configureWithStore:store
                accessTokenProvider:FBSDKAccessToken.class
@@ -757,7 +751,7 @@ static UIApplicationState _applicationState;
 // MARK: - Testability
 
 #if DEBUG
- #if FBSDKTEST
+ #if FBTEST
 
 + (void)resetHasInitializeBeenCalled
 {

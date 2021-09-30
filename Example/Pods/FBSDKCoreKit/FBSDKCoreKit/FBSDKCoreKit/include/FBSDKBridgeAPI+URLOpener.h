@@ -16,24 +16,16 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <UIKit/UIKit.h>
+#if !TARGET_OS_TV
+#import <Foundation/Foundation.h>
 
-NS_SWIFT_NAME(Icon)
+#import "FBSDKBridgeAPI.h"
+#import "FBSDKURLOpener.h"
 
-@interface FBSDKIcon : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-- (UIImage *)imageWithSize:(CGSize)size
-NS_SWIFT_NAME(image(size:));
-
-- (UIImage *)imageWithSize:(CGSize)size scale:(CGFloat)scale
-NS_SWIFT_NAME(image(size:scale:));
-
-- (UIImage *)imageWithSize:(CGSize)size color:(UIColor *)color
-NS_SWIFT_NAME(image(size:color:));
-
-- (UIImage *)imageWithSize:(CGSize)size scale:(CGFloat)scale color:(UIColor *)color
-NS_SWIFT_NAME(image(size:scale:color:));
-
-- (CGPathRef)pathWithSize:(CGSize)size;
-
+@interface FBSDKBridgeAPI () <FBSDKURLOpener>
 @end
+
+NS_ASSUME_NONNULL_END
+#endif

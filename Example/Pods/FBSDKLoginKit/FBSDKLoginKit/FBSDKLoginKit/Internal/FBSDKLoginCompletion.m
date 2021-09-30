@@ -206,7 +206,7 @@ static NSDateFormatter *_dateFormatter;
 
   // if error is nil, then this should be processed as a cancellation unless
   // _performExplicitFallback is set to YES and the log in behavior is Native.
-  _parameters.error = [NSError fbErrorFromReturnURLParameters:parameters];
+  _parameters.error = [FBSDKLoginErrorFactory fbErrorFromReturnURLParameters:parameters];
 }
 
 - (void)exchangeNonceForTokenWithHandler:(FBSDKLoginCompletionParametersBlock)handler
@@ -349,7 +349,7 @@ static NSDateFormatter *_dateFormatter;
 // MARK: Test Helpers
 
  #if DEBUG
-  #if FBSDKTEST
+  #if FBTEST
 
 + (id<FBSDKProfileCreating>)profileFactory
 {

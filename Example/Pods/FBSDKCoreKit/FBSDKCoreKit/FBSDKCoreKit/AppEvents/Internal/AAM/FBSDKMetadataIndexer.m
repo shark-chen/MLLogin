@@ -89,7 +89,7 @@ static NSString *const FIELD_K_DELIMITER = @",";
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-      NSDictionary<NSString *, id> *AAMRules = [FBSDKServerConfigurationManager cachedServerConfiguration].AAMRules;
+      NSDictionary<NSString *, id> *AAMRules = FBSDKServerConfigurationManager.shared.cachedServerConfiguration.AAMRules;
       if (AAMRules) {
         [self setupWithRules:AAMRules];
       }
@@ -295,7 +295,7 @@ static NSString *const FIELD_K_DELIMITER = @",";
     [FBSDKUserDataStore setInternalHashData:[weakStore[key] componentsJoinedByString:FIELD_K_DELIMITER]
                                     forType:key];
   };
-#ifdef FBSDKTEST
+#if FBTEST
   checkAndAppendDataBlock();
 #else
   dispatch_async(_serialQueue, checkAndAppendDataBlock);

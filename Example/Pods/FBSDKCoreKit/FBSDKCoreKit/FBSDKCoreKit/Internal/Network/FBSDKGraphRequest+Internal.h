@@ -28,7 +28,7 @@
  #import <FBSDKCoreKit/FBSDKGraphRequestFlags.h>
 #endif
 
-@protocol FBSDKCurrentAccessTokenStringProviding;
+@protocol FBSDKTokenStringProviding;
 @protocol FBSDKSettings;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,10 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, getter = isGraphErrorRecoveryDisabled) BOOL graphErrorRecoveryDisabled;
 @property (nonatomic, readonly) BOOL hasAttachments;
-
-- (instancetype)initWithGraphPath:(NSString *)graphPath
-                       parameters:(nullable NSDictionary *)parameters
-                            flags:(FBSDKGraphRequestFlags)flags;
 
 - (instancetype)initWithGraphPath:(NSString *)graphPath
                        parameters:(nullable NSDictionary *)parameters
@@ -69,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
                 httpMethod:(nullable NSString *)httpMethod
                   forBatch:(BOOL)forBatch;
 
-+ (void)setCurrentAccessTokenStringProvider:(Class<FBSDKCurrentAccessTokenStringProviding>)provider;
++ (void)setCurrentAccessTokenStringProvider:(Class<FBSDKTokenStringProviding>)provider;
 + (void)setSettings:(id<FBSDKSettings>)settings;
 
 @end

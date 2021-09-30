@@ -16,23 +16,25 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
+#import "TargetConditionals.h"
 
-#if SWIFT_PACKAGE
- #import "FBSDKApplicationDelegate.h"
-#else
- #import <FBSDKCoreKit/FBSDKApplicationDelegate.h>
-#endif
+#if TARGET_OS_TV
 
-#import "FBSDKApplicationObserving.h"
+#import "FBSDKButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FBSDKApplicationDelegate ()
+/*
+  An internal base class for device related flows.
 
-+ (BOOL)isSDKInitialized;
-+ (UIApplicationState)applicationState;
-
+ This is an internal API that should not be used directly and is subject to change.
+ */
+NS_SWIFT_NAME(FBDeviceButton)
+@interface FBSDKDeviceButton : FBSDKButton
+- (CGSize)sizeThatFits:(CGSize)size attributedTitle:(NSAttributedString *)title;
+- (NSAttributedString *)attributedTitleStringFromString:(NSString *)string;
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

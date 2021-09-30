@@ -14,44 +14,13 @@
 // FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
-#import <UIKit/UIKit.h>
-
-@protocol FBSDKWebDialogViewDelegate;
-@protocol FBSDKWebViewProviding;
-@protocol FBSDKURLOpener;
+#import "FBSDKAppAvailabilityChecker.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(FBWebDialogView)
-@interface FBSDKWebDialogView : UIView
-
-@property (nonatomic, weak) id<FBSDKWebDialogViewDelegate> delegate;
-
-+ (void)configureWithWebViewProvider:(id<FBSDKWebViewProviding>)provider
-                           urlOpener:(id<FBSDKURLOpener>)urlOpener;
-
-- (void)loadURL:(NSURL *)URL;
-- (void)stopLoading;
-
-@end
-
-NS_SWIFT_NAME(WebDialogViewDelegate)
-@protocol FBSDKWebDialogViewDelegate <NSObject>
-
-- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didCompleteWithResults:(NSDictionary *)results;
-- (void)webDialogView:(FBSDKWebDialogView *)webDialogView didFailWithError:(NSError *)error;
-- (void)webDialogViewDidCancel:(FBSDKWebDialogView *)webDialogView;
-- (void)webDialogViewDidFinishLoad:(FBSDKWebDialogView *)webDialogView;
-
+@interface FBSDKInternalUtility (AppAvailabilityChecker) <FBSDKAppAvailabilityChecker>
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif
-

@@ -62,6 +62,7 @@ static NSMutableArray<FBAEMInvocation *> *g_invocations;
 static NSDate *g_configRefreshTimestamp;
 static NSMutableArray<FBAEMReporterBlock> *g_completionBlocks;
 static _Nullable id<FBAEMNetworking> _networker = nil;
+static _Nullable id<FBSKAdNetworkReporting> _reporter = nil;
 static NSString *_appId;
 
 @implementation FBAEMReporter
@@ -71,15 +72,28 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBAEMReporte
 + (void)configureWithNetworker:(nullable id<FBAEMNetworking>)networker
                          appID:(NSString *)appID
 {
+  [self configureWithNetworker:networker appID:appID reporter:nil];
+}
+
++ (void)configureWithNetworker:(nullable id<FBAEMNetworking>)networker
+                         appID:(NSString *)appID
+                      reporter:(nullable id<FBSKAdNetworkReporting>)reporter
+{
   if (self == [FBAEMReporter class]) {
     _networker = networker;
     _appId = appID;
+    _reporter = reporter;
   }
 }
 
 + (id<FBAEMNetworking>)networker
 {
   return _networker;
+}
+
++ (id<FBSKAdNetworkReporting>)reporter
+{
+  return _reporter;
 }
 
 + (void)enable
@@ -130,6 +144,10 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBAEMReporte
 
   FBAEMInvocation *invocation = [self parseURL:url];
   if (!invocation) {
+    return;
+  }
+  if (invocation.isTestMode) {
+    [self _sendDebuggingRequest:invocation];
     return;
   }
 
@@ -191,6 +209,9 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBAEMReporte
   BOOL isGeneralInvocationVisited = NO;
   FBAEMInvocation *attributedInvocation = nil;
   for (FBAEMInvocation *invocation in [invocations reverseObjectEnumerator]) {
+    if ([self _isDoubleCounting:invocation event:event]) {
+      break;
+    }
     if (!invocation.businessID && isGeneralInvocationVisited) {
       continue;
     }
@@ -204,6 +225,18 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBAEMReporte
     }
   }
   return attributedInvocation;
+}
+
++ (BOOL)_isDoubleCounting:(FBAEMInvocation *)invocation
+                    event:(NSString *)event
+{
+  // We consider it as double counting if following conditions meet simultaneously
+  // 1. The field hasSKAN is true
+  // 2. The conversion happens before SKAdNetwork cutoff
+  // 3. The event is also being reported by SKAdNetwork
+  return invocation.hasSKAN
+  && ![_reporter shouldCutoff]
+  && [_reporter isReportingEvent:event];
 }
 
 + (void)_appendAndSaveInvocation:(FBAEMInvocation *)invocation
@@ -290,6 +323,47 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBAEMReporte
   }
   // Refresh if timestamp is expired or cached config is empty
   return (![self _isConfigRefreshTimestampValid]) || (0 == g_configs.count);
+}
+
+ #pragma mark - Deeplink debugging methods
+
++ (void)_sendDebuggingRequest:(FBAEMInvocation *)invocation
+{
+  NSMutableArray<NSDictionary *> *params = [NSMutableArray new];
+  [FBSDKTypeUtility array:params addObject:[self _debuggingRequestParameters:invocation]];
+  if (0 == params.count) {
+    return;
+  }
+  @try {
+    NSData *jsonData = [FBSDKTypeUtility dataWithJSONObject:params options:0 error:nil];
+    if (jsonData) {
+      NSString *reports = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+      [self.networker startGraphRequestWithGraphPath:[NSString stringWithFormat:@"%@/aem_conversions", _appId]
+                                          parameters:@{@"aem_conversions" : reports}
+                                         tokenString:nil
+                                          HTTPMethod:FBAEMHTTPMethodPOST
+                                          completion:^(id _Nullable result, NSError *_Nullable error) {
+                                            if (error) {
+                                              NSLog(@"Fail to send AEM debugging request with error: %@", error);
+                                            }
+                                          }];
+    }
+  } @catch (NSException *exception) {
+    NSLog(@"Fail to send AEM debugging request");
+  }
+}
+
++ (NSDictionary<NSString *, id> *)_debuggingRequestParameters:(FBAEMInvocation *)invocation
+{
+  NSMutableDictionary<NSString *, id> *conversionParams = [NSMutableDictionary new];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.campaignID forKey:CAMPAIGN_ID_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:@(0) forKey:CONVERSION_DATA_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:@(0) forKey:CONSUMPTION_HOUR_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:invocation.ACSToken forKey:TOKEN_KEY];
+  [FBSDKTypeUtility dictionary:conversionParams setObject:@"server" forKey:DELAY_FLOW_KEY];
+
+  return [conversionParams copy];
 }
 
  #pragma mark - Background methods
@@ -530,7 +604,7 @@ static char *const dispatchQueueLabel = "com.facebook.appevents.AEM.FBAEMReporte
  #pragma mark - Testability
 
  #if DEBUG
-  #if FBAEMTEST
+  #if FBTEST
 
 + (NSMutableDictionary<NSString *, NSMutableArray<FBAEMConfiguration *> *> *)configs
 {

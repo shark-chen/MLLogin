@@ -54,6 +54,9 @@
 
 @end
 
+ #if FBSDK_SWIFT_PACKAGE
+NS_EXTENSION_UNAVAILABLE("The Facebook iOS SDK is not currently supported in extensions")
+ #endif
 @implementation FBSDKEventBindingManager
 
 - (instancetype)initWithSwizzler:(Class<FBSDKSwizzling>)swizzling
@@ -324,7 +327,7 @@
                                     named:@"handle_table_view"];
           }
         };
-      #if FBSDKTEST
+      #if FBTEST
         tableViewBlock();
       #else
         fb_dispatch_on_default_thread(tableViewBlock);
@@ -354,7 +357,7 @@
                                     named:@"handle_collection_view"];
           }
         };
-      #if FBSDKTEST
+      #if FBTEST
         collectionViewBlock();
       #else
         fb_dispatch_on_default_thread(collectionViewBlock);
@@ -362,7 +365,7 @@
       }
     };
 
-  #if FBSDKTEST
+  #if FBTEST
     matchBlock();
   #else
     fb_dispatch_on_default_thread(matchBlock);
@@ -480,7 +483,7 @@
 }
 
  #if DEBUG
-  #if FBSDKTEST
+  #if FBTEST
 
 - (void)setReactBindings:(NSMutableDictionary *)bindings
 {
