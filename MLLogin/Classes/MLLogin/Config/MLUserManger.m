@@ -11,7 +11,7 @@
 @implementation MLParameter
 
 + (NSDictionary*)publicParametersDic {
-    return @{@"uuid":[MLConst deviceUUID] ?:@"",
+    return @{@"uuid":[MLConst newDeviceUUID] ?:@"",
              @"ip": [MLConst ipAddress] ?:@"",
              @"time": [NSDate ml_currentTimeStampString] ?:@"",
              @"game": [MLUserManger share].game,

@@ -43,6 +43,12 @@
     [self.superview endEditing:YES];
 }
 
+-(void)textFieldDidChange:(UITextField *)textField {
+    /// 过滤空格
+    NSString *tem = [[textField.text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsJoinedByString:@""];
+    textField.text = tem;
+}
+
 #pragma mark - lazyUI
 
 - (UIButton *)backButton {
@@ -69,6 +75,7 @@
         _accountTF.textColor = [UIColor whiteColor];
         _accountTF.backgroundColor = [UIColor colorWithHex:0x6A728A alpha:1];
         [self conFigText: _accountTF];
+        [_accountTF addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _accountTF;
 }
@@ -81,6 +88,7 @@
         _passwordTF.textColor = [UIColor whiteColor];
         _passwordTF.backgroundColor = [UIColor colorWithHex:0x6A728A alpha:1];
         [self conFigText: _passwordTF];
+        [_passwordTF addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _passwordTF;
 }
@@ -93,6 +101,7 @@
         _rePasswordTF.textColor = [UIColor whiteColor];
         _rePasswordTF.backgroundColor = [UIColor colorWithHex:0x6A728A alpha:1];
         [self conFigText: _rePasswordTF];
+        [_rePasswordTF addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _rePasswordTF;
 }
@@ -105,6 +114,7 @@
         _emailTF.textColor = [UIColor whiteColor];
         _emailTF.backgroundColor = [UIColor colorWithHex:0x6A728A alpha:1];
         [self conFigText: _emailTF];
+        [_emailTF addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     return _emailTF;
 }

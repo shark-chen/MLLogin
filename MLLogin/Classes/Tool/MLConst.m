@@ -67,6 +67,23 @@
     return UUIDString;
 }
 
++ (NSString *)newDeviceUUID {
+    NSString *uuidKey = @"ML_GAME_NEW_UUID";
+    static NSString *UUIDString;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        UUIDString = (NSString *)[[NSUserDefaults standardUserDefaults] stringForKey:uuidKey];
+       if (!UUIDString || [UUIDString isEqualToString:@""]){
+           UUIDString = [[[[UIDevice currentDevice] identifierForVendor] UUIDString] stringByReplacingOccurrencesOfString:@"-" withString:@""];
+           if (UUIDString) {
+               [[NSUserDefaults standardUserDefaults] setObject:UUIDString forKey:uuidKey];
+               [[NSUserDefaults standardUserDefaults] synchronize];
+           }
+       }
+    });
+    return UUIDString;
+}
+
 + (void)clearDeviceUUID {
     NSString *uuidKey = @"ML_GAME_UUID";
     [MLKeychain deleteKeyData:uuidKey];

@@ -123,6 +123,8 @@
     [self bindClickMenthod];
     [self adddNotification];
     self.view.backgroundColor = [UIColor clearColor];
+    
+    NSLog(@"chenwen  %@",[MLConst newDeviceUUID]);
 }
 
 - (void)layoutUI {

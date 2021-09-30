@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, MLUserType) {
 
 /// 设备uuid
 + (NSString *)deviceUUID;
++ (NSString *)newDeviceUUID;
 /// 清除设备uuid
 + (void)clearDeviceUUID;
 

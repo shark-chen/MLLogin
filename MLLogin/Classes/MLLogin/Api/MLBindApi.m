@@ -9,7 +9,7 @@
 #import "MLUserManger.h"
 #import "Header.h"
 
-@implementation MLBindApi{
+@implementation MLBindApi {
     NSString *_account;
     NSString *_password;
     NSString *_gameId;
@@ -20,14 +20,14 @@
              password:(NSString *)password
                gameId:(NSString *)gameId
             parameter:(NSDictionary * __nullable)parameter {
-  self = [super init];
-  if (self) {
+    self = [super init];
+    if (self) {
       _account = account;
       _password = password;
       _gameId = gameId;
       _parameter = parameter;
-  }
-  return self;
+    }
+    return self;
 }
 
 - (NSString *)requestUrl {
