@@ -160,6 +160,7 @@
     CGFloat width = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? 354:(MLScreenWidthL - margint * 2);
     _loginView.frame = CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350);
     _forgetPasswordView.frame = CGRectMake(margint, _loginView.y, width , 350);
+    _bindNotifyView.frame = CGRectMake(margint, _loginView.y, width , 350);
     _bindView.frame = CGRectMake(margint, _loginView.y, width , 350);
 }
 
