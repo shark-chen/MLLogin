@@ -64,11 +64,11 @@
 - (void)layouFrame {
     self.backButton.frame = CGRectMake(10, 0, 50, 40);
     self.logoImg.frame = CGRectMake(MLMargint, 6, self.width - MLMargint * 2, 45);
-    self.backButton.centerY =  self.logoImg.centerY;
+    self.backButton.centerY = self.logoImg.centerY;
     
     _infoLabel.frame = CGRectMake(MLMargint, self.logoImg.maxY + 35, 200, 14);
 
-    _textLabel.frame = CGRectMake(MLMargint, _infoLabel.maxY + 12, 200, 80);
+    _textLabel.frame = CGRectMake(MLMargint, _infoLabel.maxY + 12, self.width - MLMargint * 2+ 6, 80);
 
     self.loginButton.frame = CGRectMake(MLMargint - 3, _textLabel.maxY + 25, self.width - MLMargint * 2+ 6, MLLoginHeight);
     _bindButton.frame = CGRectMake(self.loginButton.x, self.loginButton.maxY, self.loginButton.width, MLLoginHeight);
