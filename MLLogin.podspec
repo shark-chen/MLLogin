@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MLLogin'
-  s.version          = '1.0.6'
+  s.version          = '1.0.7'
   s.summary          = 'login SDK to game.'
   s.static_framework = true
   s.swift_version    = '5.0.0'

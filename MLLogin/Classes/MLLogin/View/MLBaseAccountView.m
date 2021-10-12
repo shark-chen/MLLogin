@@ -84,6 +84,7 @@
     if (!_passwordTF) {
         _passwordTF = [[UITextField alloc] init];
         _passwordTF.placeholder = @"Password";
+        _passwordTF.secureTextEntry = YES;
         _passwordTF.font = [UIFont systemFontOfSize:16];
         _passwordTF.textColor = [UIColor whiteColor];
         _passwordTF.backgroundColor = [UIColor colorWithHex:0x6A728A alpha:1];
@@ -97,6 +98,7 @@
     if (!_rePasswordTF) {
         _rePasswordTF = [[UITextField alloc] init];
         _rePasswordTF.placeholder = @"Re-type Password";
+        _rePasswordTF.secureTextEntry = YES;
         _rePasswordTF.font = [UIFont systemFontOfSize:16];
         _rePasswordTF.textColor = [UIColor whiteColor];
         _rePasswordTF.backgroundColor = [UIColor colorWithHex:0x6A728A alpha:1];

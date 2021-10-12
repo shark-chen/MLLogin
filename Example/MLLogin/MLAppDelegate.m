@@ -16,7 +16,6 @@
 {
     [[FBSDKApplicationDelegate sharedInstance] application:application
       didFinishLaunchingWithOptions:launchOptions];
-    
     /// 当您的应用启动时，调用restorePreviousSignInWithCallback以尝试恢复已使用 Google 登录的用户的登录状态。这样做可确保用户不必在每次打开您的应用时都登录（除非他们已退出）。
     [GIDSignIn.sharedInstance restorePreviousSignInWithCallback:^(GIDGoogleUser * _Nullable user,
                                                                   NSError * _Nullable error) {
@@ -26,14 +25,8 @@
         // Show the app's signed-in state.
       }
     }];
-    
-//    [GIDSignIn sharedInstance].clientID = @"748197369663-mtcr8e00arei2bogdnofsoabdbsi86k2.apps.googleusercontent.com";
-//    [GIDSignIn sharedInstance].delegate = self;
-    
-    // Override point for customization after application launch.
     return YES;
 }
-
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
@@ -45,7 +38,6 @@
                                                  options:options];
     /// goole
     [GIDSignIn.sharedInstance handleURL:url];
-    
     return YES;
 }
 

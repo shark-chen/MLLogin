@@ -119,8 +119,14 @@
     
     _appleButton.frame = CGRectMake(self.accountTF.x, self.height - 80, 55, 55);
     _appleButton.centerX = self.loginButton.centerX;
-    _fackBookButton.frame = CGRectMake(self.accountTF.x - 5, _appleButton.y, 55, 55);
-    _gooleButton.frame = CGRectMake(self.accountTF.maxX - 50, _appleButton.y, 55, 55);
+    CGFloat Twidth =  self.accountTF.width/2;
+    if (_appleButton.y > 0) {
+        _fackBookButton.frame = CGRectMake(self.accountTF.x - 5, _appleButton.y, 55, 55);
+        _gooleButton.frame = CGRectMake(self.accountTF.maxX - 50, _appleButton.y, 55, 55);
+    }  else  {
+        _fackBookButton.frame = CGRectMake((Twidth - 55)/2 + self.accountTF.x, self.height - 80, 55, 55);
+        _gooleButton.frame = CGRectMake(self.loginButton.centerX + (Twidth - 55)/2, self.height - 80, 55, 55);
+    }
 }
 
 

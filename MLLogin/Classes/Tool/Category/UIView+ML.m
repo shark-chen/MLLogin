@@ -12,7 +12,7 @@
 #pragma mark - width
 
 - (CGFloat)width{
-    return self.bounds.size.width;
+    return self.frame.size.width;
 }
 - (void)setWidth:(CGFloat)width{
     CGRect frame = self.frame;
@@ -22,7 +22,7 @@
 #pragma mark - height
 
 - (CGFloat)height{
-    return self.bounds.size.height;
+    return self.frame.size.height;
 }
 - (void)setHeight:(CGFloat)height{
     CGRect frame = self.frame;
