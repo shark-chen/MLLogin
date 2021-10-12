@@ -35,6 +35,7 @@ static NSString *MLAppleLogin = @"apple";
 @property (strong, nonatomic) NSString *platform;
 
 @property (copy, nonatomic) void(^gusetGameIdChange)(NSString *gusetGameId);
+@property (copy, nonatomic) void(^gusetGameIdChange2)(NSString *gusetGameId);
 
 + (instancetype)share;
 

@@ -66,6 +66,7 @@ static NSString *MLPlatformID = @"ML_GAME_PLATFORMID";
 - (void)setGusetGameId:(NSString *)gusetGameId {
     _gusetGameId = gusetGameId;
     !_gusetGameIdChange?:_gusetGameIdChange(gusetGameId);
+    !_gusetGameIdChange2?:_gusetGameIdChange2(gusetGameId);
     [[NSUserDefaults standardUserDefaults] setObject:gusetGameId forKey:MLGusetGameId];
     [[NSUserDefaults standardUserDefaults] synchronize];
 //    [MLKeychain save:MLGusetGameId data:gusetGameId];

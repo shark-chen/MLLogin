@@ -45,7 +45,7 @@
     _infoLabel.textColor = [UIColor colorWithHex:0xFFFFFF alpha:1];
     [self addSubview:_infoLabel];
     __weak __typeof__(_infoLabel) weak_infoLabel = _infoLabel;
-    [MLUserManger share].gusetGameIdChange = ^(NSString * _Nonnull gusetGameId) {
+    [MLUserManger share].gusetGameIdChange2 = ^(NSString * _Nonnull gusetGameId) {
         weak_infoLabel.text = [NSString stringWithFormat:@"Guest ID:%@", gusetGameId];
     };
     
