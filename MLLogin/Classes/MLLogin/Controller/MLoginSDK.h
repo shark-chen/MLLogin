@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /// 展示登陆界面 vc 是父控制器
-- (void)show:(UIViewController *)vc;
+- (void)showTo:(UIViewController *)vc;
 
 /// 隐藏销毁
 /// @param vc 父控制器

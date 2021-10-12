@@ -8,9 +8,7 @@
 
 #import "MLViewController.h"
 #import "MLoginSDK.h"
-#import "MLAppleLoginView.h"
-#import <GoogleSignIn.h>
-
+#import <SafariServices/SafariServices.h>
 
 @interface MLViewController ()<MLLoginDalegate>
 
@@ -57,7 +55,7 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
+
     MLLoginConfig *a = [[MLLoginConfig alloc] init];
 //    a.needAutoLogin = YES;
     a.gooleClientID = @"748197369663-mtcr8e00arei2bogdnofsoabdbsi86k2.apps.googleusercontent.com";
@@ -66,7 +64,7 @@
     vc.delegate = self;
 
 //    [vc clearAccout];
-    [vc show: self];
+    [vc showTo: self];
     
     NSLog(@" - %@ -%@ -  %@ - %@", [MLLoginSDKInfo share].account, [MLLoginSDKInfo share].password, [MLLoginSDKInfo share].gameId, [MLLoginSDKInfo share].gusetGameId);
 }

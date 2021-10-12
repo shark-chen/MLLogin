@@ -17,6 +17,7 @@
 #import "MLBindNotifyView.h"
 #import "Header.h"
 #import "GoogleSignIn.h"
+#import <SafariServices/SafariServices.h>
 
 @implementation MLLoginConfig
 
@@ -159,6 +160,7 @@
     CGFloat margint = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? (MLScreenWidthL * 0.5 - 177):30;
     CGFloat width = (isIpad() || MLScreenWidthL > MLScreenHeightL) ? 354:(MLScreenWidthL - margint * 2);
     _loginView.frame = CGRectMake(margint, MLScreenHeightL * 0.5 - 175, width, 350);
+    _registerVew.frame = CGRectMake(margint, _loginView.y, width, 350);
     _forgetPasswordView.frame = CGRectMake(margint, _loginView.y, width , 350);
     _bindNotifyView.frame = CGRectMake(margint, _loginView.y, width , 350);
     _bindView.frame = CGRectMake(margint, _loginView.y, width , 350);
@@ -234,6 +236,16 @@
                     }
             }
                 break;
+            case 3:  /// 注册协议
+            {
+                [strongSelf gotoServicesProtol:1];
+            }
+                break;
+            case 4:  /// 隐私协议
+            {
+                [strongSelf gotoServicesProtol:2];
+            }
+                break;
             default:
                 strongSelf->_registerVew.hidden = NO;
                 break;
@@ -297,11 +309,34 @@
                 }
             }
                 break;
+            case 3:  /// 注册协议
+            {
+                [strongSelf gotoServicesProtol:1];
+            }
+                break;
+            case 4:  /// 隐私协议
+            {
+                [strongSelf gotoServicesProtol:2];
+            }
+                break;
             default:
                 strongSelf->_registerVew.hidden = NO;
                 break;
         }
     };
+}
+
+/// 跳转协议。
+/// @param type 1 注册协议 2 隐私协议
+- (void)gotoServicesProtol:(NSInteger)type {
+    NSString *urlStr;
+    if (type == 1) {
+        urlStr = @"https://www.sixthkingdoms.com/term-services";
+    } else {
+        urlStr = @"https://www.sixthkingdoms.com/privacy-policy";
+    }
+    SFSafariViewController *vc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:urlStr]];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 /// goole登陆
@@ -330,7 +365,7 @@
     self.modalPresentationStyle = UIModalPresentationCustom;
 }
 
-- (void)show:(UIViewController *)vc{
+- (void)showTo:(UIViewController *)vc{
     [vc presentViewController:self animated:YES completion:nil];
 }
 
