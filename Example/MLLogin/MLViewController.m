@@ -64,7 +64,7 @@
     vc.delegate = self;
 
 //    [vc clearAccout];
-    [vc showTo: self];
+    [vc showLoginTo: self];
     
     NSLog(@" - %@ -%@ -  %@ - %@", [MLLoginSDKInfo share].account, [MLLoginSDKInfo share].password, [MLLoginSDKInfo share].gameId, [MLLoginSDKInfo share].gusetGameId);
 }

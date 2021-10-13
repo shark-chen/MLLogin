@@ -29,25 +29,25 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.0)
-  - MLLogin (1.0.6):
+  - MLLogin (1.0.8):
     - FBSDKLoginKit
     - GoogleSignIn
-    - MLLogin/MLLogin (= 1.0.6)
-    - MLLogin/MLNetwork (= 1.0.6)
-    - MLLogin/Resouces (= 1.0.6)
-    - MLLogin/Tool (= 1.0.6)
-  - MLLogin/MLLogin (1.0.6):
+    - MLLogin/MLLogin (= 1.0.8)
+    - MLLogin/MLNetwork (= 1.0.8)
+    - MLLogin/Resouces (= 1.0.8)
+    - MLLogin/Tool (= 1.0.8)
+  - MLLogin/MLLogin (1.0.8):
     - FBSDKLoginKit
     - GoogleSignIn
     - MLLogin/MLNetwork
     - MLLogin/Tool
-  - MLLogin/MLNetwork (1.0.6):
+  - MLLogin/MLNetwork (1.0.8):
     - FBSDKLoginKit
     - GoogleSignIn
-  - MLLogin/Resouces (1.0.6):
+  - MLLogin/Resouces (1.0.8):
     - FBSDKLoginKit
     - GoogleSignIn
-  - MLLogin/Tool (1.0.6):
+  - MLLogin/Tool (1.0.8):
     - FBSDKLoginKit
     - GoogleSignIn
 
@@ -78,8 +78,8 @@ SPEC CHECKSUMS:
   GoogleSignIn: fd381840dbe7c1137aa6dc30849a5c3e070c034a
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
-  MLLogin: 6746f5c91858c744286864f4383146ad20418b0a
+  MLLogin: 0fe38afb39719431a9a51446f85859a16ea43651
 
 PODFILE CHECKSUM: 2941e91de070f089f0106dc736b5efd922c30bc4
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.11.2

@@ -129,7 +129,6 @@
     }
 }
 
-
 - (void)imageBg {
     self.loginButton.backgroundColor = [self.loginButton colorWithImage: [self imageNamed:@"login_btn_icon"]];
     _rememberButton.backgroundColor = [_rememberButton colorWithImage: [self imageNamed:[MLUserManger share].isRemember?@"remember_me_selected_icon":@"remember_me_icon"]];
@@ -141,6 +140,9 @@
     if (sender.tag - 100 == 2) {
         [MLUserManger share].isRemember = ![MLUserManger share].isRemember;
         _rememberButton.backgroundColor = [_rememberButton colorWithImage: [self imageNamed:[MLUserManger share].isRemember?@"remember_me_selected_icon":@"remember_me_icon"]];
+        if (![MLUserManger share].isRemember) {
+            [[MLUserManger share] clearAccout];
+        }
     }
 }
 

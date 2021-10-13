@@ -50,6 +50,7 @@
 #import "UIViewController+ML.h"
 #import "Header.h"
 #import "MLConst.h"
+#import "MLCoreData.h"
 #import "MLKeychain.h"
 #import "MLProgressHUD.h"
 #import "MLScreen.h"

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MLLoginConfig : NSObject
 
-/// 是否需要自动登陆, 默认是自动打开的
+/// 是否需要自动登陆, 默认是自动关闭的
 @property (assign, nonatomic) BOOL needAutoLogin;
 /// 谷歌用户端ID，可动态配置
 @property (strong, nonatomic) NSString *gooleClientID;
@@ -54,7 +54,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /// 展示登陆界面 vc 是父控制器
-- (void)showTo:(UIViewController *)vc;
+- (void)showLoginTo:(UIViewController *)vc;
+
+/// 展示注册界面 vc 是父控制器
+- (void)showRegisterTo:(UIViewController *)vc;
+
+/// 展示绑定界面 vc 是父控制器
+- (void)showBindTo:(UIViewController *)vc;
 
 /// 隐藏销毁
 /// @param vc 父控制器

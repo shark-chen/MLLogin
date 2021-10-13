@@ -87,6 +87,7 @@
     MLForgetPasswordView *_forgetPasswordView;
     MLBindView *_bindView;
     MLBindNotifyView *_bindNotifyView;
+    NSInteger _showType;
 }
 
 @property (strong, nonatomic) MLAccountPresenter *accountPresenter;  /// p 层
@@ -110,6 +111,7 @@
         [MLUserManger share].game = game;
         self.loginConfig = config;
         [self creatVCDelegate];
+        _showType = 0;
     }
     return self;
 }
@@ -150,6 +152,14 @@
     _bindView = [[MLBindView alloc] initWithFrame:CGRectMake(margint, _loginView.y, width, 350)];
     _bindView.hidden = YES;
     [self.view addSubview:_bindView];
+    
+    if (_showType == 1) { // 只展示注册
+        _loginView.hidden = YES;
+        _registerVew.hidden = NO;
+    } else if(_showType == 2) { // 只展示绑定
+        _loginView.hidden = YES;
+        _bindView.hidden = NO;
+    }
 }
 
 - (void)adddNotification {
@@ -221,7 +231,11 @@
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         switch (clickType) {
             case 1:  /// 返回
-                strongSelf->_registerVew.hidden = YES;
+                if(strongSelf->_showType == 1) { // 只展示绑定
+                    [strongSelf dismissViewControllerAnimated:YES completion:nil];
+                } else {
+                    strongSelf->_registerVew.hidden = YES;
+                }
                 break;
             case 2:  /// 注册
                 {
@@ -294,7 +308,11 @@
         __strong __typeof__(weakSelf) strongSelf = weakSelf;
         switch (clickType) {
             case 1:  /// 返回
-                strongSelf->_bindView.hidden = YES;
+                if(strongSelf->_showType == 2) { // 只展示绑定
+                    [strongSelf dismissViewControllerAnimated:YES completion:nil];
+                } else {
+                    strongSelf->_bindView.hidden = YES;
+                }
                 break;
             case 2:  /// 绑定
             {
@@ -365,7 +383,19 @@
     self.modalPresentationStyle = UIModalPresentationCustom;
 }
 
-- (void)showTo:(UIViewController *)vc{
+- (void)showLoginTo:(UIViewController *)vc{
+    [vc presentViewController:self animated:YES completion:nil];
+}
+
+/// 展示注册界面 vc 是父控制器
+- (void)showRegisterTo:(UIViewController *)vc {
+    _showType = 1;
+    [vc presentViewController:self animated:YES completion:nil];
+}
+
+/// 展示绑定界面 vc 是父控制器
+- (void)showBindTo:(UIViewController *)vc {
+    _showType = 2;
     [vc presentViewController:self animated:YES completion:nil];
 }
 
